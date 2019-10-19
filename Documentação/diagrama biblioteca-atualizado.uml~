@@ -26,7 +26,7 @@
       <fontname>Dialog</fontname>
       <fontsize>12</fontsize>
       <defaultstereotypeview>0</defaultstereotypeview>
-      <activediagram>Diagrama de casos 2</activediagram>
+      <activediagram>Diagrama de Classes</activediagram>
     </settings>
     <searchpath href="PROJECT_DIR" />
     <members>
@@ -38,10 +38,6 @@
               name="diagrama biblioteca-atualizado_DiagramadeClasses.pgml"
               diagramclass="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram"
               diagramname="Diagrama de Classes" />
-      <member type="pgml"
-              name="diagrama biblioteca-atualizado_Diagramadecasos.pgml"
-              diagramclass="org.argouml.uml.diagram.use_case.ui.UMLUseCaseDiagram"
-              diagramname="Diagrama de casos" />
       <member type="pgml"
               name="diagrama biblioteca-atualizado_Diagramadecasos2.pgml"
               diagramclass="org.argouml.uml.diagram.use_case.ui.UMLUseCaseDiagram"
@@ -62,7 +58,7 @@
 			CodeGeneration
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Tue Oct 15 08:58:12 COT 2019'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Tue Oct 15 09:12:32 COT 2019'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.34(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -918,16 +914,134 @@
         <UML:UseCase xmi.id = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019B0'
           name = 'Consultar Livro' isSpecification = 'false' isRoot = 'false' isLeaf = 'false'
           isAbstract = 'false'/>
+        <UML:Class xmi.id = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019B1'
+          name = '' visibility = 'public' isSpecification = 'false' isRoot = 'false'
+          isLeaf = 'false' isAbstract = 'false' isActive = 'false'/>
+        <UML:Class xmi.id = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019B2'
+          name = 'Pessoa' visibility = 'public' isSpecification = 'false' isRoot = 'false'
+          isLeaf = 'false' isAbstract = 'false' isActive = 'false'>
+          <UML:Classifier.feature>
+            <UML:Attribute xmi.id = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019BB'
+              name = 'Id' visibility = 'private' isSpecification = 'false' ownerScope = 'instance'
+              changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019BC'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019BD'
+                      lower = '1' upper = '1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:StructuralFeature.type>
+                <UML:Class xmi.idref = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019BE'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+            <UML:Attribute xmi.id = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019BF'
+              name = 'nome' visibility = 'private' isSpecification = 'false' ownerScope = 'instance'
+              changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019C0'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019C1'
+                      lower = '1' upper = '1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:StructuralFeature.type>
+                <UML:DataType href = 'http://argouml.org/profiles/uml14/default-uml14.xmi#-84-17--56-5-43645a83:11466542d86:-8000:000000000000087E'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+            <UML:Attribute xmi.id = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019C2'
+              name = 'matricula' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+              changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019C3'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019C4'
+                      lower = '1' upper = '1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:StructuralFeature.type>
+                <UML:DataType href = 'http://argouml.org/profiles/uml14/default-uml14.xmi#-84-17--56-5-43645a83:11466542d86:-8000:000000000000087C'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+            <UML:Attribute xmi.id = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019C5'
+              name = 'newAttr' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+              changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019C6'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019C7'
+                      lower = '1' upper = '1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:StructuralFeature.type>
+                <UML:DataType href = 'http://argouml.org/profiles/uml14/default-uml14.xmi#-84-17--56-5-43645a83:11466542d86:-8000:000000000000087C'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+            <UML:Attribute xmi.id = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019C8'
+              name = 'newAttr' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+              changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019C9'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019CA'
+                      lower = '1' upper = '1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:StructuralFeature.type>
+                <UML:DataType href = 'http://argouml.org/profiles/uml14/default-uml14.xmi#-84-17--56-5-43645a83:11466542d86:-8000:000000000000087C'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+          </UML:Classifier.feature>
+        </UML:Class>
+        <UML:Class xmi.id = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019B3'
+          name = '' visibility = 'public' isSpecification = 'false' isRoot = 'false'
+          isLeaf = 'false' isAbstract = 'false' isActive = 'false'/>
+        <UML:Class xmi.id = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019B4'
+          name = 'Usuario' visibility = 'public' isSpecification = 'false' isRoot = 'false'
+          isLeaf = 'false' isAbstract = 'false' isActive = 'false'>
+          <UML:GeneralizableElement.generalization>
+            <UML:Generalization xmi.idref = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019B6'/>
+          </UML:GeneralizableElement.generalization>
+        </UML:Class>
+        <UML:Class xmi.id = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019B5'
+          name = 'Funcionario' visibility = 'public' isSpecification = 'false' isRoot = 'false'
+          isLeaf = 'false' isAbstract = 'false' isActive = 'false'>
+          <UML:GeneralizableElement.generalization>
+            <UML:Generalization xmi.idref = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019B7'/>
+          </UML:GeneralizableElement.generalization>
+        </UML:Class>
+        <UML:Generalization xmi.id = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019B6'
+          isSpecification = 'false'>
+          <UML:Generalization.child>
+            <UML:Class xmi.idref = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019B4'/>
+          </UML:Generalization.child>
+          <UML:Generalization.parent>
+            <UML:Class xmi.idref = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019B2'/>
+          </UML:Generalization.parent>
+        </UML:Generalization>
+        <UML:Generalization xmi.id = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019B7'
+          isSpecification = 'false'>
+          <UML:Generalization.child>
+            <UML:Class xmi.idref = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019B5'/>
+          </UML:Generalization.child>
+          <UML:Generalization.parent>
+            <UML:Class xmi.idref = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019B2'/>
+          </UML:Generalization.parent>
+        </UML:Generalization>
+        <UML:Class xmi.id = '-84-18-115-48--4aa6f915:16dcf8ef2f4:-8000:00000000000019BE'
+          name = 'Int' visibility = 'public' isSpecification = 'false' isRoot = 'false'
+          isLeaf = 'false' isAbstract = 'false' isActive = 'false'/>
       </UML:Namespace.ownedElement>
     </UML:Model>
   </XMI.content>
 </XMI>
 <pgml description="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram|127-0-1-1--183011d:16dccdf80ed:-8000:0000000000000865"
       name="Diagrama de Classes"
->
-</pgml>
-<pgml description="org.argouml.uml.diagram.use_case.ui.UMLUseCaseDiagram|127-0-1-1--183011d:16dccdf80ed:-8000:0000000000000865"
-      name="Diagrama de casos"
 >
 </pgml>
 <pgml description="org.argouml.uml.diagram.use_case.ui.UMLUseCaseDiagram|127-0-1-1--183011d:16dccdf80ed:-8000:0000000000000865"
