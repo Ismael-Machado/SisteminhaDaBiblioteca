@@ -16,8 +16,12 @@ public class Emprestimo {
 	@ManyToOne()
 	@JoinColumn(name="usuario_fk")
 	private Usuario usuario;
+	
+//	@OneToMany(mappedBy = "emprestimo")------->Quando era relacionado diretamente com Livro
+//	private List<Livro> livros;
+	
 	@OneToMany(mappedBy = "emprestimo")
-	private List<Livro> livros;
+	private List<Exemplar> exemplares;
 	
 	
 	//Metodo get e set
@@ -42,11 +46,11 @@ public class Emprestimo {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	public List<Livro> getLivros() {
-		return livros;
+	public List<Exemplar> getExemplares() {
+		return this.exemplares;
 	}
-	public void setLivros(List<Livro> livros) {
-		this.livros = livros;
+	public void setExemplares(List<Exemplar> exemplares) {
+		this.exemplares = exemplares;
 	}
 	
 	
