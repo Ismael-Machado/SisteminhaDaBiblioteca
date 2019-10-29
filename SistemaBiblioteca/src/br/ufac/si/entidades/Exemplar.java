@@ -19,7 +19,7 @@ public class Exemplar {
 	
 	//Relacionamento de um exemplar para muitos itens de emprestimo
 	@OneToMany(mappedBy = "exemplar")
-	private List<ItensEmprestimo> itens;
+	private List<ItensEmprestimo> itensEmp;
 	
 	//Contrutor
 	public Exemplar(long exemplar, Livro livro) {

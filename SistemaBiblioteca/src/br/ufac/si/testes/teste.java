@@ -45,20 +45,24 @@ public class teste {
 		
 		//Acicionar Emprestimo
 		EmprestimoGerente emprestimoG = new EmprestimoGerente();
-		Emprestimo emprestimo = null;
-		List<ItensEmprestimo> list = null;
+		ItensEmprestimoGerente ipg = new ItensEmprestimoGerente();
+		Emprestimo emprestimo;
+		ItensEmprestimo itens;
 		Usuario usuario;
 		
 		usuario = usuG.buscarUsuario(1);
-		Exemplar e1;
-		e1 = exemplarG.buscarExemplar(27);
-		ItensEmprestimo item1 = new ItensEmprestimo(emprestimo, e1);
-		list.add(item1);//----------------------------------------------------> dando erro aqui
+		Exemplar e1 = exemplarG.buscarExemplar(27);
 		
-		emprestimo = new Emprestimo("2019-10-22", "2019-11-02", "pendente", usuario, list);
-		emprestimoG.addEmprestimo(emprestimo);
+		emprestimo = new Emprestimo("2019-10-22", "2019-11-02", "pendente", usuario);
+		
+		itens = new ItensEmprestimo(emprestimo, e1);
+		
+		ipg.addItensEmprestimo(itens);
+		//emprestimoG.addEmprestimo(emprestimo);
+		
 
 		emprestimoG.encerrar();
+		ipg.encerrar();;
 		usuG.encerrar();
 		exemplarG.encerrar();
 	}

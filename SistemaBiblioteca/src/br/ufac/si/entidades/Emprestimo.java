@@ -20,16 +20,15 @@ public class Emprestimo {
 	@JoinColumn(name="usuario_fk")
 	private Usuario usuario;
 	
-	//Mapeando um empréstimo para muitos itens de Emprestimo
+	//Mapeando um empréstimo com muitos itens
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "emprestimo")
 	private List<ItensEmprestimo> itensEmprestimo;
 
 	//Contrutores
-	public Emprestimo(String dataHorario, String dataDevol, String status, Usuario usuario, List<ItensEmprestimo> itens) {
+	public Emprestimo(String dataHorario, String dataDevol, String status, Usuario usuario) {
 		this.dataHorario = dataHorario;
 		this.dataDevolucao = dataDevol;
 		this.usuario = usuario;
-		this.itensEmprestimo = itens;
 	}
 	public Emprestimo() {
 		

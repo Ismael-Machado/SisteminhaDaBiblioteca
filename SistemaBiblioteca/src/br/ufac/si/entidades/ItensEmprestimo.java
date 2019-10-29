@@ -21,8 +21,8 @@ public class ItensEmprestimo {
 	
 	//construtor
 	public ItensEmprestimo(Emprestimo emprestimo, Exemplar exemplar) {
-		this.exemplar = exemplar;
 		this.emprestimo = emprestimo;
+		this.exemplar = exemplar;
 	}
 	public ItensEmprestimo() {
 		
