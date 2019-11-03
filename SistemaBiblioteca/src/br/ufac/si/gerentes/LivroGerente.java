@@ -1,7 +1,10 @@
 package br.ufac.si.gerentes;
 
+import java.util.List;
+
 import javax.persistence.*;
 
+import br.ufac.si.entidades.Exemplar;
 import br.ufac.si.entidades.Livro;
 
 public class LivroGerente {
@@ -42,6 +45,24 @@ public class LivroGerente {
 	public Livro buscarLivro(long id) {
 		return em.find(Livro.class, id);
 	}
+	
+	//consultas JPQL
+	
+	@SuppressWarnings("unchecked")
+	public List<Livro> buscarTodos(){
+		return em.createNamedQuery("Livro.todos").getResultList();	
+	}
+	@SuppressWarnings("unchecked")
+	public List<Livro> buscarTodosPorNome(){
+		return em.createNamedQuery("Livro.todosPorNome").getResultList();
+	}
+	@SuppressWarnings("unchecked")
+	public List<Livro> buscarTodosPorNomeContendo(String termo){
+		return em
+				.createNamedQuery("Livro.todosPorNomeContendo")
+				.setParameter("termo", "%"+termo+"%")
+				.getResultList();
+	}	
 
 	public void encerrar() {
 		em.clear();

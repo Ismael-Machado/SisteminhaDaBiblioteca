@@ -5,6 +5,14 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name="Usuario.todos", 
+		query="SELECT a FROM Usuario a"),
+	@NamedQuery(name="Usuario.todosPorNome", 
+		query="SELECT a FROM Usuario a ORDER BY a.nome"),
+	@NamedQuery(name="Usuario.todosPorNomeContendo", 
+		query="SELECT a FROM Usuario a WHERE a.nome LIKE :termo ORDER BY a.nome")		
+})
 @Table(name="usuarios")
 public class Usuario {
 	@Id

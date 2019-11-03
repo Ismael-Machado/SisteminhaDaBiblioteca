@@ -5,6 +5,14 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name="Livro.todos", 
+		query="SELECT a FROM Livro a"),
+	@NamedQuery(name="Livro.todosPorNome", 
+		query="SELECT a FROM Livro a ORDER BY a.titulo"),
+	@NamedQuery(name="Livro.todosPorNomeContendo", 
+		query="SELECT a FROM Livro a WHERE a.titulo LIKE :termo ORDER BY a.titulo")		
+})
 @Table(name="livros")
 public class Livro {
 	@Id
@@ -14,7 +22,8 @@ public class Livro {
 	private String autor;
 	private String editora;
 	private String ano;
-	private String classificacao;
+	private String localizacao;
+	private int quantidade;
 	
 	//Relacionamento de um livro para com muitos exemplares
 	@OneToMany(mappedBy = "livro")
@@ -48,12 +57,17 @@ public class Livro {
 	public void setAno(String ano) {
 		this.ano = ano;
 	}
-	public String getClassificacao() {
-		return classificacao;
+	public String getLocalizacao() {
+		return this.localizacao;
 	}
-	public void setClassificacao(String classificacao) {
-		this.classificacao = classificacao;
+	public void setLocalizacao(String local) {
+		this.localizacao = local;
 	}
-	
+	public int getQuantidade() {
+		return quantidade;
+	}
+	public void setQuantidade(int quantidade) {
+		this.quantidade = quantidade;
+	}
 	
 }

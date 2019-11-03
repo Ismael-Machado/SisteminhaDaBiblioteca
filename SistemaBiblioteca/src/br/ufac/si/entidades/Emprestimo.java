@@ -6,6 +6,16 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name="Emprestimo.todos", 
+		query="SELECT a FROM Emprestimo a"),
+	@NamedQuery(name="Emprestimo.todosPorHorario", 
+		query="SELECT a FROM Emprestimo a ORDER BY a.dataHorario")
+//	@NamedQuery(name="Emprestimo.todosPorNomeContendo", 
+//		query="SELECT a FROM Emprestimo a, Usuario u " +
+//			  "WHERE u.id = a.usuario_fk " +
+//			  "AND u.nome LIKE :termo ORDER BY a.dataHorario")		
+})
 @Table(name="emprestimos")
 public class Emprestimo {
 	@Id
@@ -25,10 +35,12 @@ public class Emprestimo {
 	private List<ItensEmprestimo> itensEmprestimo;
 
 	//Contrutores
-	public Emprestimo(String dataHorario, String dataDevol, String status, Usuario usuario) {
+	public Emprestimo(String dataHorario, String dataDevol, String status, Usuario usuario, List<ItensEmprestimo> itens) {
 		this.dataHorario = dataHorario;
 		this.dataDevolucao = dataDevol;
 		this.usuario = usuario;
+		this.status = status;
+		this.itensEmprestimo = itens;
 	}
 	public Emprestimo() {
 		

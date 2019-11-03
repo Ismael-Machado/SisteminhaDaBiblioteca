@@ -8,9 +8,10 @@ import javax.persistence.*;
 @Table(name = "exemplares")
 public class Exemplar {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
 	private long exemplar;
-	@Transient	//-------------------> não irá persistir no banco
-	private boolean disponivel;
+	private int disponivel; // 0=sim; 1=não
 	
 	//Relacionamento de muitos exemplares para com um livro
 	@ManyToOne()
@@ -22,7 +23,7 @@ public class Exemplar {
 	private List<ItensEmprestimo> itensEmp;
 	
 	//Contrutor
-	public Exemplar(long exemplar, Livro livro) {
+	public Exemplar(Livro livro, long exemplar) {
 		this.livro = livro;
 		this.exemplar = exemplar;
 	}
@@ -31,20 +32,25 @@ public class Exemplar {
 	}
 	
 	//Metodos get e set
+	
+	public long getId() {
+		return id;
+	}
+	
 	public long getExemplar() {
 		return exemplar;
 	}
-
+	
 	public void setExemplar(long exemplar) {
 		this.exemplar = exemplar;
 	}
 
 	public boolean isDisponivel() {
-		return disponivel;
+		return this.disponivel == 0 ? false : true;
 	}
 
-	public void setDisponivel(boolean disponivel) {
-		this.disponivel = disponivel;
+	public void setDisponivel(int valor) {
+		this.disponivel = valor;
 	}
 
 	public Livro getLivro() {
@@ -54,6 +60,6 @@ public class Exemplar {
 	public void setLivro(Livro livro) {
 		this.livro = livro;
 	}
-	
+		
 	
 }
