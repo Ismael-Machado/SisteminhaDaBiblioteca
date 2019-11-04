@@ -19,11 +19,20 @@ public class teste {
 //		l1.setEditora("Editora Saraiva");
 //		l1.setLocalizacao("TC6677");
 //		l1.setQuantidade(10);
-//		
-//		livroG.incluirLivro(l1);
+//		l1.setQuantExemplares(l1.getQuantidade());
+		
+		
+		Livro l2 = new Livro("Programando em JAVA", "Mitnick", 
+								"Editora Saraiva", "1992-11-25", "TC6677", 10);
+		
+		
+		
+		
+		livroG.incluirLivro(l2);
+		livroG.encerrar();
 		
 		//Adicionando os 10 exemplares
-		//exemplarG.incluirExempares(l1, 10);		
+//		exemplarG.incluirExempares(l1, 10);		
 		
 //		exemplarG.encerrar();
 //		livroG.encerrar();
@@ -43,7 +52,7 @@ public class teste {
 
 		
 //		Acicionar Emprestimo
-		EmprestimoGerente emprestimoG = new EmprestimoGerente();
+//		EmprestimoGerente emprestimoG = new EmprestimoGerente();
 //
 //		Emprestimo emprestimo = new Emprestimo();
 //		
@@ -80,10 +89,10 @@ public class teste {
 //		livroG.encerrar();
 		
 		//Fazendo consulta Emprestimo
-		List<Emprestimo> emprestimos = emprestimoG.buscarTodosPorHorario();
-		for(Emprestimo e : emprestimos) {
-			System.out.println("Id: "+e.getId()+" - Data Horario: "+e.getDataHorario()+" - Data Devolução: "+e.getDataDevolucao());
-		}
+//		List<Emprestimo> emprestimos = emprestimoG.buscarTodosPorHorario();
+//		for(Emprestimo e : emprestimos) {
+//			System.out.println("Id: "+e.getId()+" - Data Horario: "+e.getDataHorario()+" - Data Devolução: "+e.getDataDevolucao());
+//		}
 		
 		
 	}
