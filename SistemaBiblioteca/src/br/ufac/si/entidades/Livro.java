@@ -1,5 +1,6 @@
 package br.ufac.si.entidades;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -26,8 +27,27 @@ public class Livro {
 	private int quantidade;
 	
 	//Relacionamento de um livro para com muitos exemplares
-	@OneToMany(mappedBy = "livro")
+//	@OneToMany(mappedBy = "livro")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="livro_fk")
 	List <Exemplar> exemplares;
+	
+	
+	//Construtor
+	public Livro () {
+	}
+	public Livro (String titulo, String autor, String editora, 
+					String ano, String localizacao, int quantidade) {
+		this.titulo = titulo;
+		this.autor = autor;
+		this.editora = editora;
+		this.ano = ano;
+		this.localizacao = localizacao;
+		this.quantidade = quantidade;
+		this.exemplares = new ArrayList<Exemplar>();
+		setQuantExemplares(this.quantidade);
+	}
+	
 	
 	//Metodos set e get
 	public long getId() {
@@ -69,5 +89,14 @@ public class Livro {
 	public void setQuantidade(int quantidade) {
 		this.quantidade = quantidade;
 	}
-	
+	public List<Exemplar> getExemplares() {
+		return exemplares;
+	}
+	public void setExemplares(List<Exemplar> exemplares) {
+		this.exemplares = exemplares;
+	}
+	public void setQuantExemplares(int quant) {
+		for(int i=1;i<=quant;i++)
+			this.exemplares.add(new Exemplar(i));
+	}
 }

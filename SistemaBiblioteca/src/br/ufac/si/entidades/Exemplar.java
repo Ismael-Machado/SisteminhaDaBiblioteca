@@ -27,8 +27,8 @@ public class Exemplar {
 		this.livro = livro;
 		this.exemplar = exemplar;
 	}
-	public Exemplar() {
-		
+	public Exemplar(long i) {
+		this.exemplar = i;
 	}
 	
 	//Metodos get e set
