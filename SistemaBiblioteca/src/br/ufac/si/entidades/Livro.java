@@ -30,7 +30,7 @@ public class Livro {
 //	@OneToMany(mappedBy = "livro")
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="livro_fk")
-	List <Exemplar> exemplares;
+	private List <Exemplar> exemplares;
 	
 	
 	//Construtor
@@ -96,7 +96,7 @@ public class Livro {
 		this.exemplares = exemplares;
 	}
 	public void setQuantExemplares(int quant) {
-		for(int i=1;i<=quant;i++)
+		for(long i=1;i<=quant;i++)
 			this.exemplares.add(new Exemplar(i));
 	}
 }

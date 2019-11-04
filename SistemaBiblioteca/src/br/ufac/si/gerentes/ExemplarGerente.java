@@ -16,15 +16,15 @@ public class ExemplarGerente {
 	
 	//Gerenciando Exemplares
 
-		public void incluirExempares(Livro livro, int quant) {
-			em.getTransaction().begin();
-			for(long i = 1; i <= quant; i++) {
-				Exemplar exemplar = new Exemplar(livro, i);
-				em.persist(exemplar);
-			}
-			
-			em.getTransaction().commit();
-		}
+//		public void incluirExempares(Livro livro, int quant) {
+//			em.getTransaction().begin();
+//			for(long i = 1; i <= quant; i++) {
+//				Exemplar exemplar = new Exemplar(livro, i);
+//				em.persist(exemplar);
+//			}
+//			
+//			em.getTransaction().commit();
+//		}
 		
 		public void incluirExemplar(Livro livro, long exemplar) {
 			em.getTransaction().begin();
