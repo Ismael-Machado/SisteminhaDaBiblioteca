@@ -2,25 +2,52 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 		xmlns:h="http://java.sun.com/jsf/html"
-		xmlns:p="http://primefaces.org/ui">
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>SISTEMA BIBLIOTECARIO</title>
 </h:head>
 <h:body>
 	<h1> GERENCIAMENTO DE LIVROS </h1>
-	<p:button value="Adicionar Livro"/>
-	<p:table>
-		<p:collumn headerText="ver">
-		</p:collumn>
-		<p:collumn headerText="ver">
-		</p:collumn>
-		<p:collumn headerText="ver">
-		</p:collumn>
-		<p:collumn headerText="ver">
-		</p:collumn>
-		<p:collumn headerText="ver">
-		</p:collumn>
-	</p:table>
+		<h:form>
+			
+		<h:dataTable value="#{LivroControlador.livros}" var="livro" border="1">
+			<h:column>
+			<f:facet name="header">codigo</f:facet>
+				#{livro.id}
+			</h:column>
+			<h:column>
+			<f:facet name="header">titulo</f:facet>
+				#{livro.titulo}
+			</h:column>
+			<h:column>
+				<f:facet name="header">autor</f:facet>
+				#{livro.autor}
+			</h:column>
+			<h:column>
+				<f:facet name="header">editora</f:facet>
+				#{livro.editora}
+			</h:column>
+			<h:column>
+				<f:facet name="header">ano</f:facet>
+				#{livro.ano}
+			</h:column>
+			<h:column>
+				<f:facet name="header">localizacao</f:facet>
+				#{livro.localizacao}
+			</h:column>
+			<h:column>
+				<f:facet name="header">quantidade</f:facet>
+				#{livro.quantidade}
+			</h:column>
+			<h:column>
+				<f:facet name="header">Operações</f:facet>
+				<h:commandButton value="editar" action="#{LivroControlador.editar(livro)}"/>
+				<h:commandButton value="apagar" action="#{LivroControlador.excluir(livro)}"/>
+			</h:column>
+		</h:dataTable>
+		<h:commandButton value="voltar" action="index"/>
+	</h:form>
 </h:body>
 </html>
