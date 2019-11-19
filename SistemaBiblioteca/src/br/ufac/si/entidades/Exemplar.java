@@ -23,9 +23,12 @@ public class Exemplar {
 	private List<ItensEmprestimo> itensEmp;
 	
 	//Contrutor
-	public Exemplar(Livro livro, long exemplar) {
-		this.livro = livro;
-		this.exemplar = exemplar;
+//	public Exemplar(Livro livro, long exemplar) {
+//		this.livro = livro;
+//		this.exemplar = exemplar;
+//	}
+	public Exemplar() {
+		
 	}
 	public Exemplar(long i) {
 		this.exemplar = i;

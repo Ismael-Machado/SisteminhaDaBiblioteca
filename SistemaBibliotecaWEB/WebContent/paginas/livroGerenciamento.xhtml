@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:composition template="/templates/templateGeral.xhtml">
+		<ui:define name="conteudo">
+		
+			<h:form>
+				
+				<p:toolbar>
+					<f:facet name="left">
+						<h:outputText value="#{msgs['livro.gerenciamento']}"/>
+					</f:facet>
+				</p:toolbar>
+				
+				<p:separator/>
+				
+				<h:panelGrid columns="5">
+					<p:outputLabel value="#{msgs['gerenciamento.chave']}" for="chave" />
+					<p:inputText id="chave" value="#{livroControlador.chave}" maxlength="3" size="15" />
+					
+					<p:commandButton value="#{msgs['gerenciamento.buscar']}" ajax="false" action="null"/>
+					<p:commandButton value="#{msgs['gerenciamento.incluir']}" ajax="false" action="#{livroControlador.incluir}"/>
+				</h:panelGrid>
+				
+				<p:separator/>
+				
+				<p:dataTable emptyMessage="#{msgs['app.tableVazio']}"
+					value="#{livroControlador.livros}" var="livro"
+					rows="10" paginator="true" >
+					<p:column style="width: 5%;">
+						<f:facet name="header">#{msgs['livro.codigo']}</f:facet>
+						#{livro.id}
+					</p:column>
+					<p:column style="width: 25%;">
+						<f:facet name="header">#{msgs['livro.titulo']}</f:facet>
+						#{livro.titulo}
+					</p:column>
+					<p:column>
+						<f:facet name="header">#{msgs['livro.autor']}</f:facet>
+						#{livro.autor}
+					</p:column >
+					<p:column style="width: 12%;">
+						<f:facet name="header">#{msgs['livro.editora']}</f:facet>
+						#{livro.editora}
+					</p:column>
+					<p:column style="width: 5%;">
+						<f:facet name="header">#{msgs['livro.ano']}</f:facet>
+						#{livro.ano}
+					</p:column>
+					<p:column style="width: 7%;">
+						<f:facet name="header">#{msgs['livro.localizacao']}</f:facet>
+						#{livro.localizacao}
+					</p:column>
+					<p:column style="width: 5%;">
+						<f:facet name="header">#{msgs['livro.quantidade']}</f:facet>
+						#{livro.quantidade}
+					</p:column>
+					<p:column style="width: 13%;">
+						<f:facet name="header">#{msgs['app.opcoes']}</f:facet>
+						<p:commandButton value="#{msgs['gerenciamento.editar']}" ajax="false" 
+							action="#{livroControlador.editar(livro)}"/>
+						<p:commandButton value="#{msgs['gerenciamento.excluir']}" ajax="false" 
+							action="#{livroControlador.excluir(livro)}"/>
+					</p:column>
+				</p:dataTable>
+				
+			</h:form>
+			
+		</ui:define>
+	</ui:composition>
+
+</html>

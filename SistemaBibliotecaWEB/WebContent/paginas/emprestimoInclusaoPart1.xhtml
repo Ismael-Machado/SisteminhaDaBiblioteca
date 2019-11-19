@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Sistema de Controle Acadêmico</title>
+</head>
+<h:body>
+	<h1>Sistema de Controle Acadêmico</h1>
+	<h2>Inclusão de Emprestimo</h2>
+	<h:form>
+		<h:panelGrid columns="2">
+		
+			<h:outputLabel value="CPF: " for="cpf"/>
+			<h:inputText id= "nome" converter="usuarioConversor"
+				value="#{emprestimoControlador.usuario}"/>
+
+			<h:outputLabel value="Livro: " for="livro" />
+			<h:inputText id= "livro" converter="livroConversor"
+				value="#{emprestimoControlador.livro}"/>
+
+						
+		</h:panelGrid>
+	
+		<h:commandButton value="Confirmar" action="emprestimoInclusaoPart2"/>
+		<h:commandButton value="Cancelar" action="index" />
+	
+	</h:form>
+
+
+</h:body>
+</html>

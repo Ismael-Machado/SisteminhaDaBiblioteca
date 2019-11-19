@@ -25,15 +25,11 @@ public class LivroGerente {
 		em.getTransaction().commit();
 	}
 
-	public long removerLivro(long id) {
-		Livro livro = em.find(Livro.class, id);
-		long idLivro = livro.getId();
-
+	public void removerLivro(Livro livro) {
 		em.getTransaction().begin();
 		em.remove(livro);
 		em.getTransaction().commit();
 
-		return idLivro;
 	}
 
 	public void alterarLivro(Livro livro) {

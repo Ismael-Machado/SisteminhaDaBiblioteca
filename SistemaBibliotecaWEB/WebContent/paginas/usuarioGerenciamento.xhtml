@@ -1,51 +1,76 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:f="http://java.sun.com/jsf/core">
-<head>
- 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Sistema Bibliotecário</title>
-</head>
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-<body>
-	<h1>Sistema de Controle Bibliotecário</h1>
-	<h2>Gerenciamento de Usuários</h2>
-	
-	<h:form>
-	
-		<h:outputLabel value="Chave:" for="chave" />
-		<h:inputText id="chave" value="#{usuarioControlador.chave}" maxlength="3" size="15" />
-		
-		<h:commandButton value="Buscar" action="null"/>
-		<h:commandButton value="Incluir" action="#{usuarioControlador.incluir}"/>
-		<h:commandButton value="Voltar" action="index"/>
-		
-		<h:dataTable value="#{usuarioControlador.usuarios}" var="usuario" border="1">
-			<h:column>
-				<f:facet name="header">ID</f:facet>
-				#{usuario.id}
-			</h:column>
-			<h:column>
-				<f:facet name="header">Nome</f:facet>
-				#{usuario.nome}
-			</h:column>
-			<h:column>
-				<f:facet name="header">Fone</f:facet>
-				#{usuario.fone}
-			</h:column>
-			<h:column>
-				<f:facet name="header">Operações</f:facet>
-				<h:commandButton value="Editar" action="#{usuarioControlador.editar(usuario)}"/>
-				<h:commandButton value="Excluir" action="#{usuarioControlador.excluir(usuario)}"/>
+	<ui:composition template="/templates/templateGeral.xhtml">
+		<ui:define name="conteudo">
+			
+			<h:form>
+				<p:toolbar>
+					<f:facet name="left">
+						<h:outputText value="#{msgs['usuario.gerenciamento']}"/>
+					</f:facet>
+				</p:toolbar>
 				
-			</h:column>
-		
-		</h:dataTable>
+				<p:separator/>
+				
+				<h:panelGrid columns="5">
+					<p:outputLabel value="#{msgs['gerenciamento.chave']}" for="chave" />
+					<p:inputText id="chave" value="#{usuarioControlador.chave}"
+						maxlength="20" size="15" />
+					<p:commandButton value="#{msgs['gerenciamento.buscar']}" ajax="false" ction="null" />
+					<p:commandButton value="#{msgs['gerenciamento.incluir']}" ajax="false" action="#{usuarioControlador.incluir}" />
+				</h:panelGrid>
+				
+				<p:separator/>
+				
+				<p:dataTable emptyMessage="#{msgs['app.tableVazio']}" 
+					value="#{usuarioControlador.usuarios}" var="usuario"
+					rows="10" paginator="true">
+					<p:column style="width: 5%;" >
+						<f:facet name="header">#{msgs['usuario.codigo']}</f:facet>
+						#{usuario.id}
+					</p:column>
+					<p:column>
+						<f:facet name="header">#{msgs['usuario.nome']}</f:facet>
+						#{usuario.nome}
+					</p:column>
+					<p:column style="width: 20%;">
+						<f:facet name="header">#{msgs['usuario.email']}</f:facet>
+						#{usuario.email}
+					</p:column>
+					<p:column style="width: 10%;">
+						<f:facet name="header">#{msgs['usuario.cpf']}</f:facet>
+						#{usuario.CPF}
+					</p:column>
+					<p:column style="width: 10%;">
+						<f:facet name="header">#{msgs['usuario.fone']}</f:facet>
+						#{usuario.fone}
+					</p:column>
+					<p:column style="width: 8%;">
+						<f:facet name="header">#{msgs['usuario.genero']}</f:facet>
+						#{usuario.sexo}
+					</p:column>
+					<p:column style="width: 14%;">
+						<f:facet name="header">#{msgs['app.opcoes']}</f:facet>
+						<p:commandButton value="#{msgs['gerenciamento.editar']}" ajax="false"
+							action="#{usuarioControlador.editar(usuario)}" /> 
+							
+						<!-- Soltar aqui comando 5 -->
+							
+						<p:commandButton value="#{msgs['gerenciamento.excluir']}" ajax="false"
+							action="#{usuarioControlador.excluir(usuario)}" />
+					</p:column>
 
-	
-	</h:form>
-	
-</body>
+				</p:dataTable>
+			
+			</h:form>
+			
+		</ui:define>
+	</ui:composition>
 
 </html>

@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @NamedQueries({
@@ -19,22 +24,31 @@ public class Livro {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	@NotEmpty(message = "O campo titulo é obrigatório")
 	private String titulo;
+	@NotEmpty(message = "O campo autor é obrigatório")
 	private String autor;
+	@NotEmpty(message = "O campo editora é obrigatório")
 	private String editora;
+	@NotEmpty(message = "O campo ano é obrigatório")
+	@Size(min = 4, max = 4, message = "Forneça um ano válido. ex: 2019")
 	private String ano;
+	@NotEmpty(message = "O campo localização é obrigatório")
 	private String localizacao;
+	@NotNull(message = "O campo quantidade é obrigatório")
+	@Min(value = 1, message = "O campo quantidade deve ser no mínimo 1")
 	private int quantidade;
 	
 	//Relacionamento de um livro para com muitos exemplares
 //	@OneToMany(mappedBy = "livro")
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="livro_fk")
-	private List <Exemplar> exemplares;
+	private List <Exemplar> exemplares = new ArrayList<>();
 	
 	
 	//Construtor
 	public Livro () {
+		
 	}
 	public Livro (String titulo, String autor, String editora, 
 					String ano, String localizacao, int quantidade) {

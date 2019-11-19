@@ -3,6 +3,9 @@ package br.ufac.si.entidades;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
+import org.hibernate.validator.constraints.br.*;
+
 
 @Entity
 @NamedQueries({
@@ -11,17 +14,27 @@ import javax.persistence.*;
 	@NamedQuery(name="Usuario.todosPorNome", 
 		query="SELECT a FROM Usuario a ORDER BY a.nome"),
 	@NamedQuery(name="Usuario.todosPorNomeContendo", 
-		query="SELECT a FROM Usuario a WHERE a.nome LIKE :termo ORDER BY a.nome")		
+		query="SELECT a FROM Usuario a WHERE a.nome LIKE :termo ORDER BY a.nome"),
+	@NamedQuery(name="Usuario.contendoCPF", 
+		query="SELECT a FROM Usuario a WHERE a.CPF LIKE :termo ORDER BY a.nome")
 })
 @Table(name="usuarios")
 public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	
+	@NotEmpty(message = "O campo nome é obrigatório")
 	private String nome;
+	@CPF(message = "O CPF informado é inválido")
+	private String CPF;
+	@NotEmpty(message = "O campo sexo é obrigatório")
+	private String sexo;
+	@NotEmpty(message = "O campo email é obrigatório")
+	@Email(message = "O email informado é inválido")
 	private String email;
 	private String fone;
-	private String login;
+	@Size(min = 6, message = "Senha deve conter no mínimo 6 caracteres")
 	private String senha;
 	@Transient	//--------------------->Significa que o atributo não vai aparecer no banco
 	public boolean regular = true; //apto a fazer emprestimo
@@ -56,11 +69,11 @@ public class Usuario {
 	public void setFone(String fone) {
 		this.fone = fone;
 	}
-	public String getLogin() {
-		return login;
+	public String getCPF() {
+		return this.CPF;
 	}
-	public void setLogin(String login) {
-		this.login = login;
+	public void setCPF(String cpf) {
+		this.CPF = cpf;
 	}
 	public String getSenha() {
 		return senha;
@@ -80,4 +93,17 @@ public class Usuario {
 	public void setEmprestimos(List<Emprestimo> emprestimos) {
 		this.emprestimos = emprestimos;
 	}
+	public String getSexo() {
+		return sexo;
+	}
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
+	public List<Devolucao> getDevolucoes() {
+		return devolucoes;
+	}
+	public void setDevolucoes(List<Devolucao> devolucoes) {
+		this.devolucoes = devolucoes;
+	}
+	
 }

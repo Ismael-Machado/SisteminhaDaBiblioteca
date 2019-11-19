@@ -1,40 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:h="http://java.sun.com/jsf/html">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Sistema Bibliotecário</title>
-</head>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-<body>
-	<h1>Sistema de Controle Bibliotecário</h1>
-	<h2>Exclusão de Usuario</h2>
+	<ui:composition template="/templates/templateGeral.xhtml">
+		<ui:define name="conteudo">
+			
+		<h:form>
+			<p:toolbar>
+				<f:facet name="left">
+					<h:outputText value="#{msgs['usuario.exclusao']}"/>
+				</f:facet>
+			</p:toolbar>
+			
+			<p:separator/>
 
-	<h:form>
-		<h:panelGrid columns="2" border="1">
-			<h:outputLabel value="Nome: " for="nome"/>
-			<h:inputText id="nome" disabled="true" value="#{usuarioControlador.usuario.nome}"/>
+			<h:panelGrid columns="2" >
+				<p:outputLabel value="#{msgs['usuario.nome']}:" for="nome"/>
+				<p:inputText id="nome" readonly="true" value="#{usuarioControlador.usuario.nome}"/>
+				
+				<p:outputLabel value="#{msgs['usuario.cpf']}:" for="cpf"/>
+				<p:inputText id="cpf" value="#{usuarioControlador.usuario.CPF}" readonly="true"/>
+				
+				<p:outputLabel value="#{msgs['usuario.genero']}:" for="sexo" />
+				<p:selectOneMenu id="sexo" disabled="true" value="#{usuarioControlador.usuario.sexo}" >
+					<f:selectItem itemValue="" itemLabel="#{usuarioControlador.usuario.sexo}"/>
+				</p:selectOneMenu>		
+				
+				<p:outputLabel value="#{msgs['usuario.email']}:" for="email"/>
+				<p:inputText id="email" value="#{usuarioControlador.usuario.email}" readonly="true"/>
+				
+				<p:outputLabel value="#{msgs['usuario.fone']}:" for="fone"/>
+				<p:inputText id="fone" value="#{usuarioControlador.usuario.fone}" readonly="true"/>
+				
+				<!-- 
+				<h:outputLabel value="Senha " for="senha"/>
+				<h:inputText id="senha" value="#{usuarioControlador.usuario.senha}" disabled="true"/>
+				 -->
+				
 			
-			<h:outputLabel value="Email: " for="email"/>
-			<h:inputText id="email" value="#{usuarioControlador.usuario.email}" disabled="true"/>
-			
-			<h:outputLabel value="Telefone " for="fone"/>
-			<h:inputText id="fone" value="#{usuarioControlador.usuario.fone}" disabled="true"/>
-			
-			<h:outputLabel value="Login: " for="login"/>
-			<h:inputText id="login" value="#{usuarioControlador.usuario.login}" disabled="true"/>
-			
-			<h:outputLabel value="Senha " for="senha"/>
-			<h:inputText id="senha" value="#{usuarioControlador.usuario.senha}" disabled="true"/>
+			</h:panelGrid>
 		
-		</h:panelGrid>
-		
-		<h:commandButton value="Confirmar" 
-			action="#{usuarioControlador.remover}" />
-		<h:commandButton value="Cancelar" 
-			action="usuarioGerenciamento" />
+			<p:commandButton value="#{msgs['acao.confirmar']}" ajax="false" update=":msgGlobal" action="#{usuarioControlador.remover}" />
+			<p:commandButton value="#{msgs['acao.cancelar']}" ajax="false" action="/paginas/usuarioGerenciamento.xhtml?faces-redirect=true" />
 	
-	</h:form>
-</body>
+		</h:form>
+		
+		</ui:define>
+	</ui:composition>
+
 </html>

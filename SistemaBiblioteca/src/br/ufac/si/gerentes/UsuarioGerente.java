@@ -24,15 +24,12 @@ public class UsuarioGerente {
 			em.getTransaction().commit();
 		}
 
-		public long removerUsuario(long id) {
-			Usuario usuario = em.find(Usuario.class, id);
-			long idUsu = usuario.getId();
+		public void removerUsuario(Usuario u) {
 
 			em.getTransaction().begin();
-			em.remove(usuario);
+			em.remove(u);
 			em.getTransaction().commit();
 
-			return idUsu;
 		}
 
 		public void alterarUsuario(Usuario usuario) {
@@ -61,6 +58,14 @@ public class UsuarioGerente {
 					.createNamedQuery("Usuario.todosPorNomeContendo")
 					.setParameter("termo", "%"+termo+"%")
 					.getResultList();
+		}
+		
+		@SuppressWarnings("unchecked")
+		public Usuario buscarUsuarioPorCPF(String termo){
+			return (Usuario) em
+					.createNamedQuery("Usuario.contendoCPF")
+					.setParameter("termo", "%"+termo+"%")
+					.getSingleResult();
 		}
 
 		public void encerrar() {
