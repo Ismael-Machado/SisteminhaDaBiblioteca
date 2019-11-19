@@ -1,0 +1,4 @@
+1. Coloque o all-themes junto com a biblioteca do Primefaces
+2. Importe somente os JAR do Hibernate-validator:
+    - hibernate-validator-6.0.17.Final/dist/hibernate-validator-6.0.17.Final.jar
+    - hibernate-validator-6.0.17.Final/dist/lib/required/*.jar
