@@ -12,9 +12,8 @@ public class UsuarioTeste {
 		usuario.setNome("Roniel Martins");
 		usuario.setEmail("roniefx@gmail.com");
 		usuario.setFone("68984052003");
-		usuario.setSexo("masculino");
 //		usuario.setLogin("ronielmartins54");
-		usuario.setSenha("123456");
+		usuario.setSenha("1234");
 		usuG.incluirUsuario(usuario);
 		
 		usuG.encerrar();
