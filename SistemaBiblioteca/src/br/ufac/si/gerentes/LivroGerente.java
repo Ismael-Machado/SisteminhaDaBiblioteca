@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import br.ufac.si.entidades.Exemplar;
 import br.ufac.si.entidades.Livro;
 
 public class LivroGerente {

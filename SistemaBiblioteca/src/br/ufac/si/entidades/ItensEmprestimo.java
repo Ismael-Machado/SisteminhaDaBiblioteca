@@ -1,7 +1,5 @@
 package br.ufac.si.entidades;
 
-import java.util.List;
-
 import javax.persistence.*;
 @Entity
 @Table(name = "itens_emprestimo")

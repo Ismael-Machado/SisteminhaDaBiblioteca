@@ -1,9 +1,6 @@
 package br.ufac.si.recursos;
 
-import java.util.Map;
-
 import javax.faces.application.FacesMessage;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 public class ExibirMensagem {

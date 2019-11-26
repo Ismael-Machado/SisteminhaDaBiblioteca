@@ -67,6 +67,20 @@ public class UsuarioGerente {
 					.setParameter("termo", "%"+termo+"%")
 					.getSingleResult();
 		}
+		
+		@SuppressWarnings("unchecked")
+		public Usuario autenticar(String cpf, String senha){
+			try {
+				return (Usuario) em
+						.createNamedQuery("Usuario.autentica")
+						.setParameter("cpf", cpf)
+						.setParameter("senha", senha)
+						.getSingleResult();
+			} catch (Exception e) {
+				return null;
+			}
+			
+		}
 
 		public void encerrar() {
 			em.close();

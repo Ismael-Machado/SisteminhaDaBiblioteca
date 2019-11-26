@@ -1,9 +1,5 @@
 package br.ufac.si.testes;
 
-
-import java.util.*;
-
-import br.ufac.si.entidades.*;
 import br.ufac.si.gerentes.*;
 
 public class LivroTeste {

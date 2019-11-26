@@ -1,7 +1,5 @@
 package br.ufac.si.gerentes;
 
-import java.util.List;
-
 import javax.persistence.*;
 import br.ufac.si.entidades.*;
 

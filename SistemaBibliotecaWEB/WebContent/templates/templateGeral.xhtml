@@ -8,45 +8,56 @@
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>#{msgs['app.title']}</title>
+	<style type="text/css">
+    	body {background-color: #eeeeee; font-size: 14px}
+    </style> 
 	<h:outputStylesheet library="css" name="estilos.css"/>
 </h:head>
 
 <h:body>
 
-<h:form>
-
-	<p:growl id="msgGlobal" sticky="true"/>
+	<p:growl id="msgGlobal" sticky="false"/>
 	
-	<p:layout fullPage="true">
+	<div align="center">
+        <p:layout style="min-width:1180;max-width:1180px;min-height:600px">  
+            
+        	<p:layoutUnit header="#{msgs['app.titulo']}" position="north" size="100">  
+                   <!-- <h:graphicImage url="/paginas/imagens/libras.jpg" /> --> 
+            </p:layoutUnit>  
 	
 		<p:layoutUnit header="#{msgs['app.titulo']}" position="north" 
 			resizable="false" closable="false" collapsible="false">
 		</p:layoutUnit>
 		
 		
-		<p:layoutUnit position="west" size="200" resizable="false" closable="false" collapsible="false">
+		<p:layoutUnit position="west" size="200">
+			 <ui:insert name="menu">
+              	<h:form id="frMenu">
+              		 <p:menu id="pnMenu" style="width: 180px">
 			
-			<p:panelMenu>
-				<p:submenu label="#{msgs['menu.principal']}">
-					<p:menuitem value="#{msgs['menu.usuario']}" outcome="/paginas/usuarioGerenciamento.xhtml"/>
-					<p:menuitem value="#{msgs['menu.livro']}" outcome="/paginas/livroGerenciamento.xhtml"/>
-					<p:menuitem value="#{msgs['menu.emprestimo']}" outcome="/paginas/emprestimoGerenciamento.xhtml"/>
-					<p:menuitem value="#{msgs['menu.devolucao']}"/>
-					<p:menuitem value="#{msgs['menu.penalidade']}"/>
-				</p:submenu>
+						<p:submenu label="#{msgs['menu.principal']}">
+							<p:menuitem value="#{msgs['menu.usuario']}" outcome="/paginas/usuarioGerenciamento.xhtml"/>
+							<p:menuitem value="#{msgs['menu.livro']}" outcome="/paginas/livroGerenciamento.xhtml"/>
+							<p:menuitem value="#{msgs['menu.emprestimo']}" outcome="/paginas/emprestimoGerenciamento.xhtml"/>
+							<p:menuitem value="#{msgs['menu.devolucao']}"/>
+							<p:menuitem value="#{msgs['menu.penalidade']}"/>
+						</p:submenu>
 				
-			</p:panelMenu>
+					</p:menu>
+				</h:form>
+			</ui:insert>
 			
 		</p:layoutUnit>
 		
-		<p:layoutUnit position="center" resizable="false" closable="false" collapsible="false">
-			<ui:insert name="conteudo"/>
-			
-		</p:layoutUnit>
+		<p:layoutUnit position="center">  
+        	<ui:insert name="conteudo">
+                        
+            </ui:insert>
+        </p:layoutUnit>  
 		
-
 	</p:layout>
-</h:form>
+	
+</div>
 </h:body>
 
 </html>
