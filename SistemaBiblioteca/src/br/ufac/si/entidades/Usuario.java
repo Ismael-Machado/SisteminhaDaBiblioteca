@@ -16,7 +16,7 @@ import org.hibernate.validator.constraints.br.*;
 	@NamedQuery(name="Usuario.todosPorNomeContendo", 
 		query="SELECT a FROM Usuario a WHERE a.nome LIKE :termo ORDER BY a.nome"),
 	@NamedQuery(name="Usuario.contendoCPF", 
-		query="SELECT a FROM Usuario a WHERE a.CPF LIKE :termo ORDER BY a.nome"),
+		query="SELECT a FROM Usuario a WHERE a.CPF = :cpf"), // LIKE :termo ORDER BY a.nome"
 	@NamedQuery(name="Usuario.autentica", 
 	query="SELECT a FROM Usuario a WHERE a.CPF = :cpf AND a.senha = :senha")
 })

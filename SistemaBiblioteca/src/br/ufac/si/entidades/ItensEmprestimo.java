@@ -8,7 +8,7 @@ public class ItensEmprestimo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	//Relacionamento de muitos itens para com um emprestimo
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "emprestimo_fk")
 	private Emprestimo emprestimo;
 	

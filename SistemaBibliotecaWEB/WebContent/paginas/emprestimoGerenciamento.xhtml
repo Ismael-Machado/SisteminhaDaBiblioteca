@@ -2,55 +2,136 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
-<h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Insert title here</title>
-</h:head>
-	
-<h:body>
-	
-	<h1>Sistema de Controle Bibliotecário</h1>
-	<h2>Gerenciamento de Emprestimos</h2>
-	
-	<h:form>
-	
-		<h:outputLabel value="Chave:" for="chave" />
-		<h:inputText id="chave" value="#{emprestimoControlador.chave}" maxlength="3" size="15" />
-		
-		<h:commandButton value="Buscar" action="null"/>
-		<h:commandButton value="Incluir" action="#{emprestimoControlador.incluir}"/>
-		<h:commandButton value="Voltar" action="index"/>
-		
-		<h:dataTable value="#{emprestimoControlador.emprestimos}" var="emprestimo" border="1">
-			<h:column>
-			<f:facet name="header">codigo</f:facet>
-				#{emprestimo.id}
-			</h:column>
-			
-			<h:column>
-			<f:facet name="header">usuário</f:facet>
-				#{emprestimo.usuario.nome}
-			</h:column>
-			
-			<h:column>
-			<f:facet name="header">horario</f:facet>
-				#{emprestimo.dataHorario}
-			</h:column>
-			
-			<h:column>
-			<f:facet name="header">devolução</f:facet>
-				#{emprestimo.dataDevolucao}
-			</h:column>
-			
-			<h:column>
-				<f:facet name="header">Operações</f:facet>
-				<h:commandButton value="renovar" />
-			</h:column>
-			
-		</h:dataTable>
-	
-	</h:form>
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-</h:body>
+	<ui:composition template="/templates/templateGeral.xhtml">
+		<ui:define name="conteudo">
+			
+			<h:form id="formEmp">
+				<p:toolbar>
+					<f:facet name="left">
+						<h:outputText value="Gerenciamento de Empréstimos"/>
+					</f:facet>
+				</p:toolbar>
+				
+				<p:separator/>
+				
+				<h:panelGrid columns="4">
+					<p:outputLabel value="Chave:" for="chave" />
+					<p:inputText id="chave" value="#{emprestimoControlador.chave}" placeholder="Nome..."
+						maxlength="3" size="25" />
+					<p:commandButton value="Buscar" icon="ui-icon-search" ajax="false" action="null"/> 
+					
+					<p:commandButton value="Emprestar" icon="ui-icon-transferthick-e-w" update=":formPar1"
+						actionListener="#{emprestimoControlador.incluir}"
+						onclick="PF('wvEmpInclu1').show()"/>
+						
+				</h:panelGrid>
+		
+				<p:separator/>
+		
+				<p:dataTable id="tbEmp" emptyMessage="#{msgs['app.tableVazio']}" 
+					value="#{emprestimoControlador.emprestimos}" var="emprestimo" 
+					rows="10" paginator="true">
+					<p:column>
+					<f:facet name="header">codigo</f:facet>
+						#{emprestimo.id}
+					</p:column>
+					
+					<p:column>
+					<f:facet name="header">usuário</f:facet>
+						#{emprestimo.usuario.nome}
+					</p:column>
+					
+					<p:column>
+					<f:facet name="header">horario</f:facet>
+						#{emprestimo.dataHorario}
+					</p:column>
+					
+					<p:column>
+					<f:facet name="header">devolução</f:facet>
+						#{emprestimo.dataDevolucao}
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">Operações</f:facet>
+						<p:commandButton value="renovar" />
+						<p:commandButton value="devolver"/>
+					</p:column>
+			
+				</p:dataTable>
+	
+			</h:form>
+			
+			<p:dialog closable="true" draggable="true" modal="true" showEffect="fade" hideEffect="fade"
+				 resizable="false" header="Empréstimos"
+				 widgetVar="wvEmpInclu1" appendTo="@(body)">
+				<h:form id="formPar1">
+				
+					<h:panelGrid columns="2">
+				
+						<p:outputLabel value="CPF: " for="cpf"/>
+						<p:inputMask mask="999.999.999-99" id="cpf" converter="usuarioConversor"
+							value="#{emprestimoControlador.usuario}"
+							required="true" requiredMessage="O campo CPF é inválido"/>
+		
+						<p:outputLabel value="Livro: " for="livro" />
+						<p:inputText id="livro" converter="livroConversor"
+							value="#{emprestimoControlador.livro}"/>
+		
+								
+					</h:panelGrid>
+			
+					<h:panelGrid columns="2">
+						<p:commandButton value="Avançar" update=":msgGlobal :formPart2"
+							oncomplete="verificar(xhr, status, args,'wvEmpInclu1')" 
+							onclick="PF('wvEmpInclu2').show()"/>
+							
+						<p:commandButton value="Cancelar" immediate="true"
+							onclick="PF('wvEmpInclu1').hide()" />
+					</h:panelGrid>
+				
+				</h:form>
+			</p:dialog>
+			
+			<p:dialog closable="true" draggable="true" modal="true" showEffect="fade" hideEffect="fade"
+				 resizable="false" header="Empréstimos"
+				 widgetVar="wvEmpInclu2" appendTo="@(body)">
+				<h:form id="formPart2">
+				
+					<h:panelGrid columns="2">
+					
+						<p:outputLabel value="Titulo:" for="titulo" />
+						<p:inputText id= "titulo" readonly="true"
+							value="#{emprestimoControlador.livro.titulo}"/>
+							
+						<p:outputLabel value="Exemplar:" for="exemplar" />
+						<p:inputText id= "exemplar" converter="exemplarConversor"
+							value="#{emprestimoControlador.exemplar}" />
+									
+						<p:outputLabel value="Data do empréstimo:" for="dataEmp" />
+						<p:inputMask mask="99/99/9999" id="dataEmp" value="#{emprestimoControlador.emprestimo.dataHorario}"/>
+				
+						<p:outputLabel value="Data da devolução:" for="dataDev" />
+						<p:inputMask mask="99/99/9999" id="dataDev" value="#{emprestimoControlador.emprestimo.dataDevolucao}" />
+									
+					</h:panelGrid>
+	
+					<h:panelGrid columns="2">
+						<p:commandButton value="Confirmar" update=":msgGlobal :formEmp:tbEmp"
+							actionListener="#{emprestimoControlador.adiciona}" 
+							oncomplete="verificar(xhr, status, args,'wvEmpInclu2')"/>
+						<p:commandButton value="Cancelar" immediate="true"
+							onclick="PF('wvEmpInclu2').hide()" />
+							
+					</h:panelGrid>
+				
+				</h:form>
+			</p:dialog>
+			
+		</ui:define>
+	</ui:composition>
+
 </html>

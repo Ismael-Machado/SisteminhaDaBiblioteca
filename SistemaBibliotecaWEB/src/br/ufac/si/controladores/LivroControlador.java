@@ -18,13 +18,13 @@ public class LivroControlador {
 	}
 
 	//Metodo que enviar para tela de edição de livro
-	public String editar(Livro livro) {
+	public void editar(Livro livro) {
 		this.livro = livro;
-		return "/paginas/livroEdicao.xhtml?faces-redirect=true";
+//		return "/paginas/livroEdicao.xhtml?faces-redirect=true";
 	}
 	
 	//Metodo que de fato atualiza um livro no banco
-	public String atualizar() {
+	public void atualizar() {
 		try {
 			lg.alterarLivro(livro);
 			ExibirMensagem.sucesso("Livro atualizado com sucesso!");
@@ -32,7 +32,7 @@ public class LivroControlador {
 			ExibirMensagem.error("Erro ao tentar atualizar Livro :"+e.getMessage());
 		}
 		
-		return "/paginas/livroGerenciamento.xhtml";
+//		return "/paginas/livroGerenciamento.xhtml";
 	}
 	
 	//Metodo que envia para tela de inserção de um livro
@@ -70,6 +70,12 @@ public class LivroControlador {
 		}
 		
 		return "/paginas/livroGerenciamento.xhtml";
+	}
+	
+	//Metodo que retorna quantidade disponivel de livros
+	public int disponivel(Livro l) {
+		List<Exemplar> exemplares = lg.buscarExemplaresDisponivel(l);
+		return exemplares.size();
 	}
 	
 	public Livro getLivro() {

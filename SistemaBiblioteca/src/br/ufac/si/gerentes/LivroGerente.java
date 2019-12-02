@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import br.ufac.si.entidades.Exemplar;
 import br.ufac.si.entidades.Livro;
 
 public class LivroGerente {
@@ -47,15 +48,25 @@ public class LivroGerente {
 	public List<Livro> buscarTodos(){
 		return em.createNamedQuery("Livro.todos").getResultList();	
 	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Livro> buscarTodosPorNome(){
 		return em.createNamedQuery("Livro.todosPorNome").getResultList();
 	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Livro> buscarTodosPorNomeContendo(String termo){
 		return em
 				.createNamedQuery("Livro.todosPorNomeContendo")
 				.setParameter("termo", "%"+termo+"%")
+				.getResultList();
+	}	
+	
+	@SuppressWarnings("unchecked")
+	public List<Exemplar> buscarExemplaresDisponivel(Livro livro){
+		return em
+				.createNamedQuery("Livro.exemplaresDisponivel")
+				.setParameter("id", livro.getId())
 				.getResultList();
 	}	
 

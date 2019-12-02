@@ -2,34 +2,42 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:f="http://java.sun.com/jsf/core">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Sistema de Controle Acadêmico</title>
-</head>
-<h:body>
-	<h1>Sistema de Controle Acadêmico</h1>
-	<h2>Inclusão de Emprestimo</h2>
-	<h:form>
-		<h:panelGrid columns="2">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:composition template="/templates/templateGeral.xhtml">
+		<ui:define name="conteudo">
+			<h:form>
+			
+				<p:toolbar>
+					<f:facet name="left">
+						<h:outputText value="Gerenciamento de Empréstimos"/>
+					</f:facet>
+				</p:toolbar>
+			
+				<h:panelGrid columns="2">
+				
+					<p:outputLabel value="CPF: " for="cpf"/>
+					<p:inputMask mask="999.999.999-99" id="cpf" converter="usuarioConversor"
+						value="#{emprestimoControlador.usuario}"
+						required="true" requiredMessage="Informe um CPF válido"/>
 		
-			<h:outputLabel value="CPF: " for="cpf"/>
-			<h:inputText id= "nome" converter="usuarioConversor"
-				value="#{emprestimoControlador.usuario}"/>
+					<p:outputLabel value="Livro: " for="livro" />
+					<p:inputText id="livro" converter="livroConversor"
+						value="#{emprestimoControlador.livro}"/>
+		
+								
+				</h:panelGrid>
+			
+				<h:panelGrid columns="2">
+					<p:commandButton value="Confirmar" action="/paginas/emprestimoInclusaoPart2.xhtml" update=":msgGlobal"/>
+					<p:commandButton value="Cancelar" action="/paginas/emprestimoGerenciamento.xhtml" />
+				</h:panelGrid>
+				
+			</h:form>
+		</ui:define>/
+	</ui:composition>
 
-			<h:outputLabel value="Livro: " for="livro" />
-			<h:inputText id= "livro" converter="livroConversor"
-				value="#{emprestimoControlador.livro}"/>
-
-						
-		</h:panelGrid>
-	
-		<h:commandButton value="Confirmar" action="emprestimoInclusaoPart2"/>
-		<h:commandButton value="Cancelar" action="index" />
-	
-	</h:form>
-
-
-</h:body>
 </html>

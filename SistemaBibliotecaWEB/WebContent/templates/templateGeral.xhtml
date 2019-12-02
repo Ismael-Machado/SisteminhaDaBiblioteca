@@ -12,6 +12,7 @@
     	body {background-color: #eeeeee; font-size: 14px}
     </style> 
 	<h:outputStylesheet library="css" name="estilos.css"/>
+	<h:outputScript library="js" name="scripts.js"/>
 </h:head>
 
 <h:body>
@@ -36,11 +37,14 @@
               		 <p:menu id="pnMenu" style="width: 180px">
 			
 						<p:submenu label="#{msgs['menu.principal']}">
-							<p:menuitem value="#{msgs['menu.usuario']}" outcome="/paginas/usuarioGerenciamento.xhtml"/>
-							<p:menuitem value="#{msgs['menu.livro']}" outcome="/paginas/livroGerenciamento.xhtml"/>
-							<p:menuitem value="#{msgs['menu.emprestimo']}" outcome="/paginas/emprestimoGerenciamento.xhtml"/>
-							<p:menuitem value="#{msgs['menu.devolucao']}"/>
-							<p:menuitem value="#{msgs['menu.penalidade']}"/>
+							<p:menuitem value="#{msgs['menu.usuario']}" icon="ui-icon-person"
+								outcome="/paginas/usuarioGerenciamento.xhtml"/>
+							<p:menuitem value="#{msgs['menu.livro']}" icon="ui-icon-bookmark"
+								outcome="/paginas/livroGerenciamento.xhtml"/>
+							<p:menuitem value="#{msgs['menu.emprestimo']}" icon="ui-icon-cart"
+								outcome="/paginas/emprestimoGerenciamento.xhtml"/>
+							<p:menuitem value="#{msgs['menu.devolucao']}" icon="ui-icon-arrowreturnthick-1-e" />
+							<p:menuitem value="#{msgs['menu.penalidade']}" icon="ui-icon-alert" /> 
 						</p:submenu>
 				
 					</p:menu>

@@ -2,39 +2,46 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:f="http://java.sun.com/jsf/core">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Sistema de Controle Acadêmico</title>
-</head>
-<h:body>
-	<h1>Sistema de Controle Acadêmico</h1>
-	<h2>Inclusão de Emprestimo</h2>
-	<h:form>
-		<h:panelGrid columns="2">
-		
-			<h:outputLabel value="Titulo" for="titulo" />
-			<h:inputText id= "titulo" disabled="true"
-				value="#{emprestimoControlador.livro.titulo}"/>
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:composition template="/templates/templateGeral.xhtml">
+		<ui:define name="conteudo">
+			<h:form>
 			
-			<h:outputLabel value="Exemplar" for="exemplar" />
-			<h:inputText id= "exemplar" converter="exemplarConversor"
-				value="#{emprestimoControlador.exemplar}"/>
-
-			<h:outputLabel value="Data do empréstimo" for="dataEmp" />
-			<h:inputText id= "dataEmp" value="#{emprestimoControlador.emprestimo.dataHorario}"/>
-
-			<h:outputLabel value="Data da devolução" for="dataDev" />
-			<h:inputText id= "dataDev" value="#{emprestimoControlador.emprestimo.dataDevolucao}" />
+				<p:toolbar>
+					<f:facet name="left">
+						<h:outputText value="Gerenciamento de Empréstimos"/>
+					</f:facet>
+				</p:toolbar>
+			
+				<h:panelGrid columns="2">
+					
+					<p:outputLabel value="Titulo:" for="titulo" />
+					<p:inputText id= "titulo" readonly="true"
+						value="#{emprestimoControlador.livro.titulo}"/>
 						
-		</h:panelGrid>
+					<p:outputLabel value="Exemplar:" for="exemplar" />
+					<p:inputText id= "exemplar" converter="exemplarConversor"
+						value="#{emprestimoControlador.exemplar}" />
+								
+					<p:outputLabel value="Data do empréstimo:" for="dataEmp" />
+					<p:inputMask mask="99/99/9999" id="dataEmp" value="#{emprestimoControlador.emprestimo.dataHorario}"/>
+			
+					<p:outputLabel value="Data da devolução:" for="dataDev" />
+					<p:inputMask mask="99/99/9999" id="dataDev" value="#{emprestimoControlador.emprestimo.dataDevolucao}" />
+									
+				</h:panelGrid>
 	
-		<h:commandButton value="Confirmar" action="#{emprestimoControlador.adiciona}"/>
-		<h:commandButton value="Cancelar" action="index" />
-	
-	</h:form>
+				<h:panelGrid columns="2">
+					<p:commandButton value="Confirmar" action="#{emprestimoControlador.adiciona}" update=":msgGlobal"/>
+					<p:commandButton value="Cancelar" action="/paginas/emprestimoGerenciamento.xhtml" />
+				</h:panelGrid>
+				
+			</h:form>
+		</ui:define>
+	</ui:composition>
 
-
-</h:body>
 </html>

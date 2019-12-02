@@ -9,7 +9,7 @@
 	<ui:composition template="/templates/templateGeral.xhtml">
 		<ui:define name="conteudo">
 			
-			<h:form>
+			<h:form id="formUsuario">
 				<p:toolbar>
 					<f:facet name="left">
 						<h:outputText value="#{msgs['usuario.gerenciamento']}"/>
@@ -21,14 +21,19 @@
 				<h:panelGrid columns="5">
 					<p:outputLabel value="#{msgs['gerenciamento.chave']}" for="chave" />
 					<p:inputText id="chave" value="#{usuarioControlador.chave}"
-						maxlength="20" size="15" />
-					<p:commandButton value="#{msgs['gerenciamento.buscar']}" ajax="false" ction="null" />
-					<p:commandButton value="#{msgs['gerenciamento.incluir']}" ajax="false" action="#{usuarioControlador.incluir}" />
+						maxlength="20" size="25" placeholder="Nome..." />
+						
+					<p:commandButton value="#{msgs['gerenciamento.buscar']}" icon="ui-icon-search" 
+						ajax="false" action="null" />
+					
+					<p:commandButton value="#{msgs['gerenciamento.incluir']}" icon="ui-icon-plusthick"
+						actionListener="#{usuarioControlador.incluir}" update=":formIncluir"
+						onclick="PF('wvDlInserir').show()" />
 				</h:panelGrid>
 				
 				<p:separator/>
 				
-				<p:dataTable emptyMessage="#{msgs['app.tableVazio']}" 
+				<p:dataTable id="tableUsuario" emptyMessage="#{msgs['app.tableVazio']}"
 					value="#{usuarioControlador.usuarios}" var="usuario"
 					rows="10" paginator="true">
 					<p:column style="width: 5%;" >
@@ -55,20 +60,145 @@
 						<f:facet name="header">#{msgs['usuario.genero']}</f:facet>
 						#{usuario.sexo}
 					</p:column>
-					<p:column style="width: 14%;">
+					<p:column style="width: 7%;">
 						<f:facet name="header">#{msgs['app.opcoes']}</f:facet>
-						<p:commandButton value="#{msgs['gerenciamento.editar']}" ajax="false"
-							action="#{usuarioControlador.editar(usuario)}" /> 
+						<p:commandButton id="editar" icon="ui-icon-pencil" update=":form"
+							actionListener="#{usuarioControlador.editar(usuario)}"
+							onclick="PF('wvDlEditar').show()" />
+						<p:tooltip for="editar" value="Editar" position="top"/>
 							
-						<!-- Soltar aqui comando 5 -->
-							
-						<p:commandButton value="#{msgs['gerenciamento.excluir']}" ajax="false"
-							action="#{usuarioControlador.excluir(usuario)}" />
+						<p:commandButton id="excluir" icon="ui-icon-closethick" update=":formExclusao"
+							actionListener="#{usuarioControlador.excluir(usuario)}"
+							onclick="PF('wvDlExclusao').show()" />
+						<p:tooltip for="excluir" value="Excluir" position="top"/>
+						
 					</p:column>
 
 				</p:dataTable>
 			
 			</h:form>
+			
+			<p:dialog closable="true" draggable="true" modal="true" showEffect="fade" hideEffect="fade"
+				 resizable="false" header="#{msgs['usuario.inclusao']}"
+				 widgetVar="wvDlInserir" appendTo="@(body)">
+				<h:form id="formIncluir">
+				
+					<h:panelGrid columns="2">
+					
+						<p:outputLabel value="#{msgs['usuario.nome']}:" for="nome"/>
+						<p:inputText id= "nome" value="#{usuarioControlador.usuario.nome}" >	
+							<f:validateBean/>
+						</p:inputText>		
+						
+						<p:outputLabel value="#{msgs['usuario.cpf']}:" for="cpf"/>
+						<p:inputMask mask="999.999.999-99" id="cpf" value="#{usuarioControlador.usuario.CPF}" />
+						
+						<p:outputLabel value="#{msgs['usuario.genero']}:" for="sexo" />
+						<p:selectOneMenu id="sexo" value="#{usuarioControlador.usuario.sexo}">
+							<f:validateBean />
+							<f:selectItem noSelectionOption="true" itemLabel="--Selecione--"/>							
+						 	<f:selectItem itemValue="#{msgs['usuario.masculino']}" itemLabel="#{msgs['usuario.masculino']}" />
+							<f:selectItem itemvalue="#{msgs['usuario.feminino']}" itemLabel="#{msgs['usuario.feminino']}" />
+						
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="#{msgs['usuario.email']}:" for="email"/>
+						<p:inputText id="email" value="#{usuarioControlador.usuario.email}" />
+						
+						<p:outputLabel value="#{msgs['usuario.fone']}:" for="fone"/>
+						<p:inputMask mask="(99)99999-9999" id="fone" value="#{usuarioControlador.usuario.fone}"/>				
+					
+					</h:panelGrid>
+			
+					<h:panelGrid columns="2">
+						<p:commandButton value="#{msgs['acao.cadastrar']}" update=":msgGlobal :formUsuario:tableUsuario"
+							actionListener="#{usuarioControlador.adicionar}" 
+							oncomplete="verificar(xhr, status, args,'wvDlInserir')"/>
+													
+						<p:commandButton value="#{msgs['acao.cancelar']}" immediate="true" 
+							onclick="PF('wvDlInserir').hide()"/>
+						
+					</h:panelGrid>
+				
+				</h:form>
+			</p:dialog>
+			
+			<p:dialog closable="true" draggable="true" modal="true" resizable="false" showEffect="fade" hideEffect="fade"
+				header="#{msgs['usuario.edicao']}" widgetVar="wvDlEditar" appendTo="@(body)">
+				<h:form id="form">
+				
+					<h:panelGrid columns="2">
+			
+						<p:outputLabel value="#{msgs['usuario.nome']}:" for="nome"/>
+						<p:inputText id= "nome" value="#{usuarioControlador.usuario.nome}" />
+						
+						<p:outputLabel value="#{msgs['usuario.cpf']}:" for="cpf"/>
+						<p:inputMask mask="999.999.999-99" id="cpf" value="#{usuarioControlador.usuario.CPF}" />
+						
+						<p:outputLabel value="#{msgs['usuario.genero']}:" for="sexo" />
+						<p:selectOneMenu id="sexo" disabled="true" value="#{usuarioControlador.usuario.sexo}">
+							<f:selectItem itemValue="" itemLabel="#{usuarioControlador.usuario.sexo}"/>
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="#{msgs['usuario.email']}:" for="email"/>
+						<p:inputText id="email" value="#{usuarioControlador.usuario.email}" />
+						
+						<p:outputLabel value="#{msgs['usuario.fone']}:" for="fone"/>
+						<p:inputMask id="fone" mask="(99)99999-9999" value="#{usuarioControlador.usuario.fone}"/>	
+						
+				
+					</h:panelGrid>
+		
+					<h:panelGrid columns="2">
+						<p:commandButton value="#{msgs['acao.confirmar']}" update=":msgGlobal :formUsuario:tableUsuario"
+							actionListener="#{usuarioControlador.atualizar}" 
+							oncomplete="verificar(xhr, status, args,'wvDlEditar')"/>
+						
+						<p:commandButton value="#{msgs['acao.cancelar']}" immediate="true"
+							onclick="PF('wvDlEditar').hide()" />
+	
+					</h:panelGrid>
+				
+				</h:form>
+			</p:dialog>
+			
+			<p:dialog closable="true" draggable="true" modal="true" resizable="false" showEffect="fade" hideEffect="fade"
+				header="#{msgs['usuario.exclusao']}" widgetVar="wvDlExclusao" appendTo="@(body)">
+				<h:form id="formExclusao">
+				
+					<h:panelGrid columns="2" >
+						<p:outputLabel value="#{msgs['usuario.nome']}:" for="nome"/>
+						<p:inputText id="nome" readonly="true" value="#{usuarioControlador.usuario.nome}"/>
+						
+						<p:outputLabel value="#{msgs['usuario.cpf']}:" for="cpf"/>
+						<p:inputText id="cpf" value="#{usuarioControlador.usuario.CPF}" readonly="true"/>
+						
+						<p:outputLabel value="#{msgs['usuario.genero']}:" for="sexo" />
+						<p:selectOneMenu id="sexo" disabled="true" value="#{usuarioControlador.usuario.sexo}" >
+							<f:selectItem itemValue="" itemLabel="#{usuarioControlador.usuario.sexo}"/>
+						</p:selectOneMenu>		
+						
+						<p:outputLabel value="#{msgs['usuario.email']}:" for="email"/>
+						<p:inputText id="email" value="#{usuarioControlador.usuario.email}" readonly="true"/>
+						
+						<p:outputLabel value="#{msgs['usuario.fone']}:" for="fone"/>
+						<p:inputText id="fone" value="#{usuarioControlador.usuario.fone}" readonly="true"/>
+				
+			
+					</h:panelGrid>
+		
+					<h:panelGrid columns="2">
+						<p:commandButton value="#{msgs['acao.confirmar']}" update=":msgGlobal :formUsuario:tableUsuario" 	
+							actionListener="#{usuarioControlador.remover}" 
+							oncomplete="verificar(xhr, status, args,'wvDlExclusao')"/>
+							
+						<p:commandButton value="#{msgs['acao.cancelar']}" onclick="PF('wvDlExclusao').hide()" />
+	
+					</h:panelGrid>
+					
+				
+				</h:form>
+			</p:dialog>
 			
 		</ui:define>
 	</ui:composition>

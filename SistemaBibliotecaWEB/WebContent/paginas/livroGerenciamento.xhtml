@@ -9,7 +9,7 @@
 	<ui:composition template="/templates/templateGeral.xhtml">
 		<ui:define name="conteudo">
 		
-			<h:form>
+			<h:form id="formLivro">
 				
 				<p:toolbar>
 					<f:facet name="left">
@@ -21,30 +21,35 @@
 				
 				<h:panelGrid columns="5">
 					<p:outputLabel value="#{msgs['gerenciamento.chave']}" for="chave" />
-					<p:inputText id="chave" value="#{livroControlador.chave}" maxlength="3" size="15" />
+					<p:inputText id="chave" value="#{livroControlador.chave}" maxlength="3" size="25" placeholder="Título..." />
 					
-					<p:commandButton value="#{msgs['gerenciamento.buscar']}" ajax="false" action="null"/>
-					<p:commandButton value="#{msgs['gerenciamento.incluir']}" ajax="false" action="#{livroControlador.incluir}"/>
+					<p:commandButton value="#{msgs['gerenciamento.buscar']}" icon="ui-icon-search"
+						ajax="false" action="null"/>
+					
+					<p:commandButton value="#{msgs['gerenciamento.incluir']}" icon="ui-icon-plusthick" update=":formLivroIncluir"
+						actionListener="#{livroControlador.incluir}"
+						onclick="PF('dlLivroInclusao').show()"/>
+						
 				</h:panelGrid>
 				
 				<p:separator/>
 				
-				<p:dataTable emptyMessage="#{msgs['app.tableVazio']}"
+				<p:dataTable id="tableLivro" emptyMessage="#{msgs['app.tableVazio']}"
 					value="#{livroControlador.livros}" var="livro"
 					rows="10" paginator="true" >
 					<p:column style="width: 5%;">
 						<f:facet name="header">#{msgs['livro.codigo']}</f:facet>
 						#{livro.id}
 					</p:column>
-					<p:column style="width: 25%;">
+					<p:column style="width: 20%;">
 						<f:facet name="header">#{msgs['livro.titulo']}</f:facet>
 						#{livro.titulo}
 					</p:column>
-					<p:column>
+					<p:column style="width: 15%;">
 						<f:facet name="header">#{msgs['livro.autor']}</f:facet>
 						#{livro.autor}
 					</p:column >
-					<p:column style="width: 12%;">
+					<p:column style="width: 11%;">
 						<f:facet name="header">#{msgs['livro.editora']}</f:facet>
 						#{livro.editora}
 					</p:column>
@@ -52,24 +57,162 @@
 						<f:facet name="header">#{msgs['livro.ano']}</f:facet>
 						#{livro.ano}
 					</p:column>
-					<p:column style="width: 7%;">
+					<p:column style="width: 6%;">
 						<f:facet name="header">#{msgs['livro.localizacao']}</f:facet>
 						#{livro.localizacao}
 					</p:column>
-					<p:column style="width: 5%;">
+					<p:column style="width: 3%;">
 						<f:facet name="header">#{msgs['livro.quantidade']}</f:facet>
 						#{livro.quantidade}
 					</p:column>
-					<p:column style="width: 13%;">
+					<p:column style="width: 3%;">
+						<f:facet name="header">Disp.</f:facet>
+						#{livroControlador.disponivel(livro)}
+					</p:column>
+					<p:column style="width: 7%;">
 						<f:facet name="header">#{msgs['app.opcoes']}</f:facet>
-						<p:commandButton value="#{msgs['gerenciamento.editar']}" ajax="false" 
-							action="#{livroControlador.editar(livro)}"/>
-						<p:commandButton value="#{msgs['gerenciamento.excluir']}" ajax="false" 
-							action="#{livroControlador.excluir(livro)}"/>
+						<p:commandButton id="editar" icon="ui-icon-pencil" update=":formLivroEdicao"
+						actionListener="#{livroControlador.editar(livro)}"
+						onclick="PF('dlLivroEdicao').show()"/>
+						<p:tooltip for="editar" value="Editar" position="top"/>
+							
+						<p:commandButton id="excluir" icon="ui-icon-closethick" update=":formLivroExclusao"
+							actionListener="#{livroControlador.excluir(livro)}"
+							onclick="PF('dlLivroExclusao').show()"/>
+						<p:tooltip for="excluir" value="Excluir" position="top"/>
+							
 					</p:column>
 				</p:dataTable>
 				
 			</h:form>
+			
+			<p:dialog closable="true" draggable="true" modal="true" showEffect="fade" hideEffect="fade"
+				 resizable="false" header="#{msgs['livro.inclusao']}"
+				 widgetVar="dlLivroInclusao" appendTo="@(body)">
+				<h:form id="formLivroIncluir">
+				
+					<h:panelGrid columns="2">
+				
+						<p:outputLabel value="#{msgs['livro.titulo']}:" for="titulo" />
+						<p:inputText id= "titulo" value="#{livroControlador.livro.titulo}">
+							<f:validateBean/>
+						</p:inputText>
+			
+						<p:outputLabel value="#{msgs['livro.autor']}:" for="autor" />
+						<p:inputText id= "autor" value="#{livroControlador.livro.autor}"/>
+			
+						<p:outputLabel value="#{msgs['livro.editora']}:" for="editora" />
+						<p:inputText id= "editora" value="#{livroControlador.livro.editora}"/>
+		
+						<p:outputLabel value="#{msgs['livro.ano']}:" for="ano" />
+						<p:inputText id= "ano" value="#{livroControlador.livro.ano}"/>
+			
+						<p:outputLabel value="#{msgs['livro.localizacao']}:" for="localizacao" />
+						<p:inputText id= "localizacao" value="#{livroControlador.livro.localizacao}"/>
+			
+						<p:outputLabel value="#{msgs['livro.quantidade']}:" for="quantidade" />
+						<p:inputText id= "quantidade" value="#{livroControlador.livro.quantidade}" />
+								
+					</h:panelGrid>
+			
+					<h:panelGrid columns="2">
+						<p:commandButton value="#{msgs['acao.confirmar']}" update=":msgGlobal :formLivro:tableLivro" 
+							actionListener="#{livroControlador.adicionar}"
+							oncomplete="verificar(xhr, status, args,'dlLivroInclusao')" />
+							
+						<p:commandButton value="#{msgs['acao.cancelar']}" immediate="true"
+							onclick="PF('dlLivroInclusao').hide()" />
+				
+					</h:panelGrid>
+					
+				
+				</h:form>
+			</p:dialog>
+			
+			<p:dialog closable="true" draggable="true" modal="true" showEffect="fade" hideEffect="fade"
+				 resizable="false" header="#{msgs['livro.edicao']}"
+				 widgetVar="dlLivroEdicao" appendTo="@(body)">
+				<h:form id="formLivroEdicao">
+				
+					<h:panelGrid columns="2">
+			
+						<p:outputLabel value="#{msgs['livro.codigo']}:" for="codigo" />
+						<p:inputText id= "codigo" readonly="true" value="#{livroControlador.livro.id}" />
+			
+						<p:outputLabel value="#{msgs['livro.titulo']}:" for="titulo" />
+						<p:inputText id= "titulo" value="#{livroControlador.livro.titulo}"/>
+			
+						<p:outputLabel value="#{msgs['livro.autor']}:" for="autor" />
+						<p:inputText id= "autor" value="#{livroControlador.livro.autor}"/>
+			
+						<p:outputLabel value="#{msgs['livro.editora']}:" for="editora" />
+						<p:inputText id= "editora" value="#{livroControlador.livro.editora}"/>
+			
+						<p:outputLabel value="#{msgs['livro.ano']}:" for="ano" />
+						<p:inputText id= "ano" value="#{livroControlador.livro.ano}"/>
+			
+						<p:outputLabel value="#{msgs['livro.localizacao']}:" for="localizacao" />
+						<p:inputText id= "localizacao" value="#{livroControlador.livro.localizacao}"/>
+			
+						<p:outputLabel value="#{msgs['livro.quantidade']}:" for="quantidade" />
+						<p:inputText id= "quantidade" readonly="true" value="#{livroControlador.livro.quantidade}" />
+					</h:panelGrid>
+		
+					<h:panelGrid columns="2">
+						<p:commandButton value="#{msgs['acao.confirmar']}" update=":msgGlobal :formLivro:tableLivro" 
+							actionListener="#{livroControlador.atualizar}"
+							oncomplete="verificar(xhr, status, args,'dlLivroEdicao')" />
+							
+						<p:commandButton value="#{msgs['acao.cancelar']}" immediate="true"
+							onclick="PF('dlLivroEdicao').hide()"/>
+						
+					</h:panelGrid>
+
+				</h:form>
+			</p:dialog>
+			
+			<p:dialog closable="true" draggable="true" modal="true" showEffect="fade" hideEffect="fade"
+				 resizable="false" header="#{msgs['livro.exclusao']}"
+				 widgetVar="dlLivroExclusao" appendTo="@(body)">
+				<h:form id="formLivroExclusao">
+				
+					<h:panelGrid columns="2">
+		
+						<p:outputLabel value="#{msgs['livro.codigo']}:" for="codigo" />
+						<p:inputText id= "codigo" value="#{livroControlador.livro.id}" readonly="true"/>
+			
+						<p:outputLabel value="#{msgs['livro.titulo']}:" for="titulo" />
+						<p:inputText id= "titulo" readonly="true" value="#{livroControlador.livro.titulo}"/>
+			
+						<p:outputLabel value="#{msgs['livro.autor']}:" for="autor" />
+						<p:inputText id= "autor" readonly="true" value="#{livroControlador.livro.autor}"/>
+		
+						<p:outputLabel value="#{msgs['livro.editora']}:" for="editora" />
+						<p:inputText id= "editora" readonly="true" value="#{livroControlador.livro.editora}"/>
+			
+						<p:outputLabel value="#{msgs['livro.ano']}:" for="ano" />
+						<p:inputText id= "ano" readonly="true" value="#{livroControlador.livro.ano}"/>
+			
+						<p:outputLabel value="#{msgs['livro.localizacao']}:" for="localizacao" />
+						<p:inputText id= "localizacao" readonly="true" value="#{livroControlador.livro.localizacao}"/>
+			
+						<p:outputLabel value="#{msgs['livro.quantidade']}:" for="quantidade" />
+						<p:inputText id= "quantidade" readonly="true" value="#{livroControlador.livro.quantidade}" />
+								
+					</h:panelGrid>
+			
+					<h:panelGrid columns="2">
+						<p:commandButton value="#{msgs['acao.confirmar']}" update=":msgGlobal :formLivro:tableLivro" 
+							actionListener="#{livroControlador.remover}"
+							oncomplete="verificar(xhr, status, args,'dlLivroExclusao')" />
+						
+						<p:commandButton value="#{msgs['acao.cancelar']}" immediate="true"
+							onclick="PF('dlLivroExclusao').hide()" />
+							
+					</h:panelGrid>
+									
+				</h:form>
+			</p:dialog>
 			
 		</ui:define>
 	</ui:composition>

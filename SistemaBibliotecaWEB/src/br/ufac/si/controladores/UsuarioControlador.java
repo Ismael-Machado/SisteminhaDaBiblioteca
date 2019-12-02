@@ -3,6 +3,9 @@ package br.ufac.si.controladores;
 import java.util.List;
 
 import javax.faces.bean.*;
+import javax.faces.event.ActionEvent;
+
+import org.apache.tomcat.util.http.fileupload.RequestContext;
 
 import br.ufac.si.entidades.*;
 import br.ufac.si.gerentes.*;
@@ -14,6 +17,7 @@ public class UsuarioControlador {
 	private UsuarioGerente ug;
 	private Usuario usuario = new Usuario();
 	private String chave = "";
+	private String[] generos = {"Masculino", "Feminino"};
 
 
 	//Contrutor
@@ -33,55 +37,66 @@ public class UsuarioControlador {
 	public void setUsuario(Usuario u) {
 		this.usuario = u;
 	}
+	
+	public String[] getGeneros() {
+		return generos;
+	}
 
 	//Metodo que envia para tela de inserção de um usuario
-	public String incluir() {
+	public void incluir() {
 		this.usuario = new Usuario();
-		return "/paginas/usuarioInclusao.xhtml?faces-redirect=true";
+		//return "/paginas/usuarioInclusao.xhtml?faces-redirect=true";
 	}
 
 	//Metodo que de fato insere um usuario no banco
-	public String adicionar() {
+	public void adicionar() {
 		try {
-			ExibirMensagem.sucesso("Usuario cadastrado com sucesso");
+			
 			ug.incluirUsuario(this.usuario);
+			ExibirMensagem.sucesso("Usuario cadastrado com sucesso");
 
 		} catch (Exception e) {
 			ExibirMensagem.error("Erro ao tentar cadastrar usuário :"+e.getMessage());
 		}
-		return "/paginas/usuarioGerenciamento.xhtml";
+//		return "/paginas/usuarioGerenciamento.xhtml";
+
 
 	}
 
 	//Metodo que enviar para tela de edição de usuario
-	public String editar(Usuario u) {
+	public void editar(Usuario u) {
 		this.usuario = u;
-		return "/paginas/usuarioEdicao.xhtml?faces-redirect=true";
+//		return "/paginas/usuarioEdicao.xhtml?faces-redirect=true"
+		
 	}
 
 	//Metodo que de fato atualiza um usuario no banco
-	public String atualizar() {
+	public void atualizar() {
 		try {
 			ug.alterarUsuario(this.usuario);
+			
 			ExibirMensagem.sucesso("Usuário atualizado com sucesso!");
 
 		} catch (Exception e) {
 			ExibirMensagem.error("Erro ao tentar atualizar usuário :"+e.getMessage());
 		}
 		
-		return "/paginas/usuarioGerenciamento.xhtml";
+//		return "/paginas/usuarioGerenciamento.xhtml";
 	}
 
 	//Metodo que enviar para tela de exclusão de usuario
-	public String excluir(Usuario u) {
+	public void excluir(Usuario u) {
 		this.usuario = u;
-		return "/paginas/usuarioExclusao.xhtml?faces-redirect=true";
+		
+//		return "/paginas/usuarioExclusao.xhtml?faces-redirect=true";
 	}
-	//Metodo que de fato remove um usuario do banco
+	
+//	//Metodo que de fato remove um usuario do banco
 	public String remover() {
 		try {
-			ExibirMensagem.sucesso("Usuário removido com sucesso!");
+			
 			ug.removerUsuario(this.usuario);
+			ExibirMensagem.sucesso("Usuário removido com sucesso!");
 
 		} catch (Exception e) {
 			ExibirMensagem.error("Erro ao tentar remover usuário :"+e.getMessage());

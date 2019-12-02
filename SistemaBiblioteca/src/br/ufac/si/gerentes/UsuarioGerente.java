@@ -61,11 +61,16 @@ public class UsuarioGerente {
 		}
 		
 		@SuppressWarnings("unchecked")
-		public Usuario buscarUsuarioPorCPF(String termo){
-			return (Usuario) em
-					.createNamedQuery("Usuario.contendoCPF")
-					.setParameter("termo", "%"+termo+"%")
-					.getSingleResult();
+		public Usuario buscarUsuarioPorCPF(String cpf){
+			try {
+				return (Usuario) em
+						.createNamedQuery("Usuario.contendoCPF")
+						.setParameter("cpf", cpf) //"%"+termo+"%"
+						.getSingleResult();
+			} catch (Exception e) {
+				return null;
+			}
+			
 		}
 		
 		@SuppressWarnings("unchecked")

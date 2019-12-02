@@ -7,13 +7,12 @@ import javax.faces.bean.*;
 
 import br.ufac.si.entidades.*;
 import br.ufac.si.gerentes.*;
+import br.ufac.si.recursos.ExibirMensagem;
 
 @ManagedBean(name="emprestimoControlador")
 @SessionScoped
 public class EmprestimoControlador {
 	private EmprestimoGerente emG;
-	private LivroGerente liG;
-	private UsuarioGerente usG;
 	private ExemplarGerente exG;
 	private Emprestimo emprestimo;
 	private Usuario usuario;
@@ -25,9 +24,8 @@ public class EmprestimoControlador {
 	
 	//Construtor
 	public EmprestimoControlador() {
+		exG = new ExemplarGerente();
 		emG = new EmprestimoGerente();
-		liG = new LivroGerente();
-		usG = new UsuarioGerente();
 		exG = new ExemplarGerente();
 	}
 
@@ -52,7 +50,7 @@ public class EmprestimoControlador {
 	}
 
 
-		public Usuario getUsuario() {
+	public Usuario getUsuario() {
 		return usuario;
 	}
 
@@ -92,7 +90,7 @@ public class EmprestimoControlador {
 	}
 
 
-		public Livro getLivro() {
+	public Livro getLivro() {
 		return livro;
 	}
 
@@ -103,28 +101,35 @@ public class EmprestimoControlador {
 
 
 		//Metodo que envia para tela de inserção de um emprestimo
-		public String incluir() {
+		public void incluir() {
 			this.usuario = new Usuario();
 			this.exemplar = new Exemplar();
 			livro = new Livro();
-//			this.item = new ItensEmprestimo();
-//			this.lista = new ArrayList<>();
 			this.emprestimo = new Emprestimo();
-			
-			return "emprestimoInclusaoPart1";
+		
+//			return "/paginas/emprestimoInclusaoPart1";
 		}
 		
 		//Metodo que de fato insere um usuario no banco
-		public String adiciona() {
+		public void adiciona() {
 			lista = new ArrayList<>();
+			exemplar.setDisponivel(1);
+			exG.alterarExemplar(exemplar); // altera para 1 = indisponivel
+			
 			item = new ItensEmprestimo(emprestimo, exemplar);
 			lista.add(item);
 			
 			emprestimo.setUsuario(usuario);
 			emprestimo.setItensEmprestimo(lista);
-			emG.fazerEmprestimo(emprestimo);
 			
-			return "emprestimoGerenciamento";
+			try {
+				emG.fazerEmprestimo(emprestimo);
+				ExibirMensagem.sucesso("Empréstimo realizado com sucesso");
+			} catch (Exception e) {
+				ExibirMensagem.error(e.getMessage());
+			}
+					
+//			return "emprestimoGerenciamento";
 		}
 		
 		//Metodo para retornar uma lista de emprestimos do banco

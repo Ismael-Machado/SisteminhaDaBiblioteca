@@ -7,6 +7,7 @@ import javax.faces.convert.FacesConverter;
 
 import br.ufac.si.entidades.Usuario;
 import br.ufac.si.gerentes.UsuarioGerente;
+import br.ufac.si.recursos.ExibirMensagem;
 
 
 @FacesConverter(value="usuarioConversor", forClass=Usuario.class)
@@ -15,9 +16,14 @@ public class UsuarioConversor implements Converter {
 	
 	@Override
 	public Object getAsObject(FacesContext f, UIComponent comp, String value) {
-		if(value == null || value.isEmpty())
+		if(value == null || value.isEmpty()) {
 			return null;
-		return ug.buscarUsuarioPorCPF(value);
+		}
+		
+		if(ug.buscarUsuarioPorCPF(value) != null)
+			return ug.buscarUsuarioPorCPF(value);
+		return null;
+					
 	}
 
 	@Override
