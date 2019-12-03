@@ -14,7 +14,9 @@ import br.ufac.si.recursos.ExibirMensagem;
 public class EmprestimoControlador {
 	private EmprestimoGerente emG;
 	private ExemplarGerente exG;
+	private DevolucaoGerente devG;
 	private Emprestimo emprestimo;
+	private Devolucao devolucao;
 	private Usuario usuario;
 	public static Livro livro;
 	private Exemplar exemplar;
@@ -26,7 +28,8 @@ public class EmprestimoControlador {
 	public EmprestimoControlador() {
 		exG = new ExemplarGerente();
 		emG = new EmprestimoGerente();
-		exG = new ExemplarGerente();
+		devG = new DevolucaoGerente();
+		emprestimo = new Emprestimo();
 	}
 
 	
@@ -134,12 +137,41 @@ public class EmprestimoControlador {
 		
 		//Metodo para retornar uma lista de emprestimos do banco
 		public List<Emprestimo> getEmprestimos(){
-			return emG.buscarTodos();
+			return emG.buscarTodosPorNomeContendo(chave);
 		}
 		
-		public String passa(Emprestimo e) {
+		//Metodo que retorna da tabela emprestimo o atual que foi clicado
+		public void passa(Emprestimo e) {
 			this.emprestimo = e;
-			return "/paginas/emprestimoDevolver.xhtml";
+//			return "/paginas/emprestimoDevolver.xhtml";
+		}
+		
+		//Metodo que grava no banco a devolução
+		public void gravaDevolucao() {
+			
+			System.out.println("Titulo: "+emprestimo.getItensEmprestimo().get(0).getExemplar().getLivro().getTitulo());
+			
+			exemplar = emprestimo.getItensEmprestimo().get(0).getExemplar(); //Pega a instancia do exemplar que foi realizado
+			exemplar.setDisponivel(0);										//realizado o emprestimo e retorna pra disponivel
+			exG.alterarExemplar(exemplar);
+			
+			devolucao = new Devolucao();
+			devolucao.setDataDevolucao(emprestimo.getDataDevolucao());
+			devolucao.setDataSaida(emprestimo.getDataHorario());
+			devolucao.setExemplar((int)exemplar.getExemplar());
+			devolucao.setLivro(exemplar.getLivro().getTitulo());
+			devolucao.setUsuario(emprestimo.getUsuario());
+			
+						
+			try {
+				emG.removerEmprestimo(emprestimo);
+				devG.gravar(devolucao);
+				ExibirMensagem.sucesso("Devolução realizada com sucesso");
+			} catch (Exception e1) {
+				ExibirMensagem.error(e1.getMessage());
+			}
+			
+			//					return "/paginas/emprestimoDevolver.xhtml";
 		}
 	
 	

@@ -6,45 +6,39 @@ import javax.persistence.*;
 
 import br.ufac.si.entidades.*;
 
-public class EmprestimoGerente {
+public class DevolucaoGerente {
 	
 	private EntityManagerFactory emf;
 	private EntityManager em;
 
-	public EmprestimoGerente() {
+	public DevolucaoGerente() {
 		emf = Persistence.createEntityManagerFactory("Biblioteca");
 		em = emf.createEntityManager();
 	}
 	
 	//Gerenciando Emprestimo
 
-		public void fazerEmprestimo(Emprestimo emprestimo) {
+		public void gravar(Devolucao devolucao) {
 			em.getTransaction().begin();
-			em.persist(emprestimo);
+			em.persist(devolucao);
 			em.getTransaction().commit();
 		}
 		
-		public void removerEmprestimo(Emprestimo emprestimo) {
-			em.getTransaction().begin();
-			em.remove(emprestimo);
-			em.getTransaction().commit();
-
-		}
 		
 		//consultas JPQL
 		
 		@SuppressWarnings("unchecked")
-		public List<Emprestimo> buscarTodos(){
-			return em.createNamedQuery("Emprestimo.todos").getResultList();	
+		public List<Devolucao> buscarTodos(){
+			return em.createNamedQuery("Devolucao.todos").getResultList();	
 		}
 		
 		@SuppressWarnings("unchecked")
-		public List<Emprestimo> buscarTodosPorNomeContendo(String nome){
+		public List<Devolucao> buscarTodosPorNomeContendo(String nome){
 			return em
-					.createNamedQuery("Emprestimo.todosPorNomeContendo")
+					.createNamedQuery("Devolucao.todosPorNomeContendo")
 					.setParameter("nome", "%"+nome+"%")
 					.getResultList();
-		}	
+		}
 
 		public void encerrar() {
 			em.clear();

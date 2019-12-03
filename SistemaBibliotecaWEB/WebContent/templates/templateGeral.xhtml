@@ -13,6 +13,8 @@
     </style> 
 	<h:outputStylesheet library="css" name="estilos.css"/>
 	<h:outputScript library="js" name="scripts.js"/>
+	
+	
 </h:head>
 
 <h:body>
@@ -43,7 +45,8 @@
 								outcome="/paginas/livroGerenciamento.xhtml"/>
 							<p:menuitem value="#{msgs['menu.emprestimo']}" icon="ui-icon-cart"
 								outcome="/paginas/emprestimoGerenciamento.xhtml"/>
-							<p:menuitem value="#{msgs['menu.devolucao']}" icon="ui-icon-arrowreturnthick-1-e" />
+							<p:menuitem value="#{msgs['menu.devolucao']}" icon="ui-icon-arrowreturnthick-1-e" 
+								outcome="/paginas/devolucaoGerenciamento.xhtml"/>
 							<p:menuitem value="#{msgs['menu.penalidade']}" icon="ui-icon-alert" /> 
 						</p:submenu>
 				

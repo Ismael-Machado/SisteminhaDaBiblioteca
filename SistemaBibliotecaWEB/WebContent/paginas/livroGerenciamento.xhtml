@@ -21,7 +21,7 @@
 				
 				<h:panelGrid columns="5">
 					<p:outputLabel value="#{msgs['gerenciamento.chave']}" for="chave" />
-					<p:inputText id="chave" value="#{livroControlador.chave}" maxlength="3" size="25" placeholder="Título..." />
+					<p:inputText id="chave" value="#{livroControlador.chave}" maxlength="25" size="25" placeholder="Título..." />
 					
 					<p:commandButton value="#{msgs['gerenciamento.buscar']}" icon="ui-icon-search"
 						ajax="false" action="null"/>
@@ -69,8 +69,13 @@
 						<f:facet name="header">Disp.</f:facet>
 						#{livroControlador.disponivel(livro)}
 					</p:column>
-					<p:column style="width: 7%;">
+					<p:column style="width: 10%;">
 						<f:facet name="header">#{msgs['app.opcoes']}</f:facet>
+						<p:commandButton id="visualizar" icon="ui-icon-zoomin" update=":forVisu"
+							actionListener="#{livroControlador.retornaLivro(livro)}"
+							onclick="PF('dlVisu').show()"/>
+						<p:tooltip for="visualizar" value="Visualizar" position="top"/>
+						
 						<p:commandButton id="editar" icon="ui-icon-pencil" update=":formLivroEdicao"
 						actionListener="#{livroControlador.editar(livro)}"
 						onclick="PF('dlLivroEdicao').show()"/>
@@ -80,7 +85,8 @@
 							actionListener="#{livroControlador.excluir(livro)}"
 							onclick="PF('dlLivroExclusao').show()"/>
 						<p:tooltip for="excluir" value="Excluir" position="top"/>
-							
+						
+										
 					</p:column>
 				</p:dataTable>
 				
@@ -213,6 +219,33 @@
 									
 				</h:form>
 			</p:dialog>
+	
+			
+			<p:dialog closable="true" draggable="true" modal="true" showEffect="fade" hideEffect="fade"
+				 resizable="false" header="Exemplares" width="400"
+				 widgetVar="dlVisu" appendTo="@(body)">
+				<h:form id="forVisu">
+	
+					<p:dataTable id="tableVisu" paginator="true" rows="10"
+						value="#{livroControlador.exemplares}" var="exemplar">
+						<p:column >
+							<f:facet name="header">Livro</f:facet>
+							#{exemplar.livro.titulo}
+						</p:column>
+						<p:column style="width: 13%;">
+							<f:facet name="header">Exemplar</f:facet>
+							#{exemplar.exemplar}
+						</p:column>
+						<p:column style="width: 15%;" >
+							<f:facet name="header">Dísponivel</f:facet>
+							#{exemplar.disponivel}
+						</p:column>
+					</p:dataTable>
+				
+
+				</h:form>
+			</p:dialog>
+			
 			
 		</ui:define>
 	</ui:composition>

@@ -21,7 +21,7 @@
 				<h:panelGrid columns="4">
 					<p:outputLabel value="Chave:" for="chave" />
 					<p:inputText id="chave" value="#{emprestimoControlador.chave}" placeholder="Nome..."
-						maxlength="3" size="25" />
+						maxlength="25" size="25" />
 					<p:commandButton value="Buscar" icon="ui-icon-search" ajax="false" action="null"/> 
 					
 					<p:commandButton value="Emprestar" icon="ui-icon-transferthick-e-w" update=":formPar1"
@@ -35,23 +35,23 @@
 				<p:dataTable id="tbEmp" emptyMessage="#{msgs['app.tableVazio']}" 
 					value="#{emprestimoControlador.emprestimos}" var="emprestimo" 
 					rows="10" paginator="true">
-					<p:column>
-					<f:facet name="header">codigo</f:facet>
+					<p:column style="width: 5%;">
+					<f:facet name="header">Código</f:facet>
 						#{emprestimo.id}
 					</p:column>
 					
 					<p:column>
-					<f:facet name="header">usuário</f:facet>
+					<f:facet name="header">Nome</f:facet>
 						#{emprestimo.usuario.nome}
 					</p:column>
 					
 					<p:column>
-					<f:facet name="header">horario</f:facet>
+					<f:facet name="header">Retirada</f:facet>
 						#{emprestimo.dataHorario}
 					</p:column>
 					
 					<p:column>
-					<f:facet name="header">devolução</f:facet>
+					<f:facet name="header">Devolução</f:facet>
 						#{emprestimo.dataDevolucao}
 					</p:column>
 					
@@ -59,10 +59,10 @@
 						<f:facet name="header">Operações</f:facet>
 						<p:commandButton value="Renovar" />
 						
-						<p:commandButton id="devolver" value="Devolver" ajax="false"
-							action="#{emprestimoControlador.passa(emprestimo)}"/>
-							<!--  onclick="PF('wvDevolver1').show()"/>
-							-->
+						<p:commandButton id="devolver" value="Devolver" update=":formDevolver"
+							actionListener="#{emprestimoControlador.passa(emprestimo)}"
+							onclick="PF('wvDevolver').show()"/>
+							
 					</p:column>
 			
 				</p:dataTable>
@@ -90,7 +90,7 @@
 			
 					<h:panelGrid columns="2">
 						<p:commandButton value="Avançar" update=":msgGlobal :formPart2"
-							oncomplete="verificar(xhr, status, args, 'wvEmpInclu1', 'wvEmpInclu2')" 
+							oncomplete="verificar(xhr, status, args, 'wvEmpInclu1')" 
 							onclick="PF('wvEmpInclu2').show()"/>
 							
 						<p:commandButton value="Cancelar" immediate="true"
@@ -136,17 +136,33 @@
 			</p:dialog>
 			
 			<p:dialog closable="true" draggable="true" modal="true" showEffect="fade" hideEffect="fade"
-				 resizable="false" header="Devolução"
-				 widgetVar="wvdevolver1" appendTo="@(body)">
+				 resizable="false" header="Devolução" width="400"
+				 widgetVar="wvDevolver" appendTo="@(body)">
 				<h:form id="formDevolver">
 				
-
-			
+					<p:dataTable id="tableDev" 
+						value="#{emprestimoControlador.emprestimo}" var="dlemprestimo">
+						<p:column >
+							<f:facet name="header">Nome</f:facet>
+							#{dlemprestimo.usuario.nome}
+						</p:column>
+						<p:column >
+							<f:facet name="header">Livro</f:facet>
+							#{dlemprestimo.itensEmprestimo.get(0).exemplar.livro.titulo}
+						</p:column>
+						<p:column style="width: 5%;" >
+							<f:facet name="header">Ex</f:facet>
+							#{dlemprestimo.itensEmprestimo.get(0).exemplar.exemplar}
+						</p:column>
+				</p:dataTable>
+				<p:separator/>
 					<h:panelGrid columns="2">
-						<p:commandButton value="Confirmar" />
+						<p:commandButton value="Confirmar" update=":msgGlobal :formEmp"
+							actionListener="#{emprestimoControlador.gravaDevolucao}"
+							oncomplete="verificar(xhr, status, args, 'wvDevolver')" />
 							
 						<p:commandButton value="Cancelar" immediate="true"
-							onclick="PF('wvdevolver').hide()" />
+							onclick="PF('wvDevolver').hide()" />
 					</h:panelGrid>
 				
 				</h:form>

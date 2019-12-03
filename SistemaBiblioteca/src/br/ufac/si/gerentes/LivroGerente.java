@@ -69,6 +69,14 @@ public class LivroGerente {
 				.setParameter("id", livro.getId())
 				.getResultList();
 	}	
+	
+	@SuppressWarnings("unchecked")
+	public List<Exemplar> buscarTodosExemplares(Livro livro){
+		return em
+				.createNamedQuery("Livro.todosExemplares")
+				.setParameter("id", livro.getId())
+				.getResultList();
+	}
 
 	public void encerrar() {
 		em.clear();

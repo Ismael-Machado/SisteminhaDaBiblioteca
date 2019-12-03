@@ -7,13 +7,9 @@ import javax.persistence.*;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="Emprestimo.todos", 
-		query="SELECT a FROM Emprestimo a"),
-	@NamedQuery(name="Emprestimo.todosPorHorario", 
-		query="SELECT a FROM Emprestimo a ORDER BY a.dataHorario")
-//	@NamedQuery(name="Emprestimo.todosPorNomeContendo", 
-//		query="SELECT a FROM Emprestimo a, Usuario u " +
-//			  "WHERE u.id = a.usuario_fk " +
-//			  "AND u.nome LIKE :termo ORDER BY a.dataHorario")		
+		query="SELECT a FROM Emprestimo a ORDER BY a.id DESC"),
+	@NamedQuery(name="Emprestimo.todosPorNomeContendo", 
+		query="SELECT e FROM Emprestimo e, Usuario u WHERE e.usuario = u.id AND u.nome LIKE :nome ORDER BY e.id")
 })
 @Table(name="emprestimos")
 public class Emprestimo {

@@ -10,11 +10,42 @@ import br.ufac.si.recursos.ExibirMensagem;
 public class LivroControlador {
 
 	private LivroGerente lg;
-	private Livro livro;
+	private Livro livro = new Livro();
+	private Exemplar exemplar;
 	private String chave = "";
 	
 	public LivroControlador() {
 		lg = new LivroGerente();
+	}
+
+	//Metodo set e get
+	public Livro getLivro() {
+		return livro;
+	}
+
+	public void setLivro(Livro livro) {
+		this.livro = livro;
+	}
+	
+	public List<Livro> getLivros(){
+		return lg.buscarTodosPorNomeContendo(chave);
+	}
+
+	public String getChave() {
+		return chave;
+	}
+
+	public void setChave(String chave) {
+		this.chave = chave;
+	}
+	
+	
+	public Exemplar getExemplar() {
+		return exemplar;
+	}
+
+	public void setExemplar(Exemplar exemplar) {
+		this.exemplar = exemplar;
 	}
 
 	//Metodo que enviar para tela de edição de livro
@@ -78,23 +109,14 @@ public class LivroControlador {
 		return exemplares.size();
 	}
 	
-	public Livro getLivro() {
-		return livro;
+	//Metodo que retorna todos os exemplares de um livro
+	public List<Exemplar> getExemplares(){
+		return lg.buscarTodosExemplares(this.livro);
 	}
-
-	public void setLivro(Livro livro) {
+	
+	//Metodo que pega o livro corrente da table
+	public void retornaLivro(Livro livro) {
 		this.livro = livro;
 	}
 	
-	public List<Livro> getLivros(){
-		return lg.buscarTodosPorNomeContendo(chave);
-	}
-
-	public String getChave() {
-		return chave;
-	}
-
-	public void setChave(String chave) {
-		this.chave = chave;
-	}
 }

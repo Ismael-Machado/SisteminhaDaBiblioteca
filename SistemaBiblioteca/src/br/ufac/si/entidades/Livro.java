@@ -18,7 +18,9 @@ import javax.validation.constraints.Size;
 	@NamedQuery(name="Livro.todosPorNomeContendo", 
 		query="SELECT a FROM Livro a WHERE a.titulo LIKE :termo ORDER BY a.titulo"),
 	@NamedQuery(name="Livro.exemplaresDisponivel", 
-		query="SELECT e FROM Livro l, Exemplar e WHERE l.id = :id AND l.id = e.livro AND e.disponivel = 0")
+		query="SELECT e FROM Livro l, Exemplar e WHERE l.id = :id AND l.id = e.livro AND e.disponivel = 0"),
+	@NamedQuery(name="Livro.todosExemplares", 
+		query="SELECT e FROM Livro l, Exemplar e WHERE l.id = :id AND l.id = e.livro")
 })
 @Table(name="livros")
 public class Livro {
@@ -42,6 +44,7 @@ public class Livro {
 	
 	//Relacionamento de um livro para com muitos exemplares
 //	@OneToMany(mappedBy = "livro")
+	
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="livro_fk")
 	private List <Exemplar> exemplares = new ArrayList<>();

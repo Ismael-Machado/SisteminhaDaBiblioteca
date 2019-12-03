@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:composition template="/templates/templateGeral.xhtml">
+		<ui:define name="conteudo">
+			
+			<h:form>
+			
+				<p:toolbar>
+					<f:facet name="left">
+						<h:outputText value="Gerenciamento de Devolução"/>
+					</f:facet>
+				</p:toolbar>
+				
+				<p:separator/>
+				
+				<h:panelGrid columns="5">
+					<p:outputLabel value="#{msgs['gerenciamento.chave']}" for="chave" />
+					<p:inputText id="chave" value="#{devolucaoControlador.chave}"
+						maxlength="25" size="25" placeholder="Nome..." />
+						
+					<p:commandButton value="#{msgs['gerenciamento.buscar']}" icon="ui-icon-search" 
+						ajax="false" action="null" />
+					
+				</h:panelGrid>
+				
+				<p:separator/>
+				
+				<p:dataTable id="tableDev" paginator="true" rows="10"
+				value="#{devolucaoControlador.devolucoes}" var="devolucao">
+					<p:column style="width: 5%;" >
+						<f:facet name="header">Código</f:facet>
+						#{devolucao.id}
+					</p:column>
+					<p:column >
+						<f:facet name="header">Nome</f:facet>
+						#{devolucao.usuario.nome}
+					</p:column>
+					<p:column >
+						<f:facet name="header">Livro</f:facet>
+						#{devolucao.livro}
+					</p:column>
+					<p:column style="width: 5%;" >
+						<f:facet name="header">Ex</f:facet>
+						#{devolucao.exemplar}
+					</p:column>
+					<p:column style="width: 10%;">
+						<f:facet name="header">Saída</f:facet>
+						#{devolucao.dataSaida}
+					</p:column>
+					<p:column style="width: 10%;">
+						<f:facet name="header">Devolução</f:facet>
+						#{devolucao.dataDevolucao}
+					</p:column>
+				</p:dataTable>
+				
+			</h:form>
+			
+		</ui:define>
+	</ui:composition>
+</html>
