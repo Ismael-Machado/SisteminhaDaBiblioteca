@@ -137,34 +137,10 @@ public class EmprestimoControlador {
 			return emG.buscarTodos();
 		}
 		
-		//Metodo que enviar para tela de edição de usuario
-//		public String editar(Usuario u) {
-//			this.usuario = u;
-//			return "usuarioEdicao";
-//		}
-		
-		//Metodo que de fato atualiza um usuario no banco
-//		public String atualiza() {
-//			ug.alterarUsuario(this.usuario);
-//			return "usuarioGerenciamento";
-//		}
-		
-		//Metodo que enviar para tela de exclusão de usuario
-//		public String excluir(Usuario u) {
-//			this.usuario = u;
-//			return "usuarioExclusao";
-//		}
-		//Metodo que de fato remove um usuario do banco
-//		public String remover() {
-//			ug.removerUsuario(this.usuario.getId());
-//			return "usuarioGerenciamento";
-//		}
-		
-		
-		//Metodo para retornar um Usuario
-//		public Usuario getUsuario() {
-//			return this.usuario;
-//		}
+		public String passa(Emprestimo e) {
+			this.emprestimo = e;
+			return "/paginas/emprestimoDevolver.xhtml";
+		}
 	
 	
 }

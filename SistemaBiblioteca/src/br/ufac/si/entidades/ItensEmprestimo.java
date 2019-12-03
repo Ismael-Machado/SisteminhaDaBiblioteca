@@ -31,6 +31,9 @@ public class ItensEmprestimo {
 		return id;
 	}
 
+	public void setId(long id) {
+		this.id = id;
+	}
 
 	public Emprestimo getEmprestimo() {
 		return emprestimo;

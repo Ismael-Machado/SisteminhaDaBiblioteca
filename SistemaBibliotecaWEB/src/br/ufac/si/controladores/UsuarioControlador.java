@@ -1,5 +1,6 @@
 package br.ufac.si.controladores;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.*;
@@ -17,7 +18,12 @@ public class UsuarioControlador {
 	private UsuarioGerente ug;
 	private Usuario usuario = new Usuario();
 	private String chave = "";
-	private String[] generos = {"Masculino", "Feminino"};
+	private List<String> generos = new ArrayList<String>() {	
+					{
+						add("Masculino");
+						add("Feminino");
+					}
+		};
 
 
 	//Contrutor
@@ -38,8 +44,9 @@ public class UsuarioControlador {
 		this.usuario = u;
 	}
 	
-	public String[] getGeneros() {
-		return generos;
+	public List<String> getGeneros() {
+		
+		return this.generos;
 	}
 
 	//Metodo que envia para tela de inserção de um usuario

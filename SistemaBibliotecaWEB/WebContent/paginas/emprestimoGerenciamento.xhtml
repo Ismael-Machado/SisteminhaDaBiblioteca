@@ -57,8 +57,12 @@
 					
 					<p:column>
 						<f:facet name="header">Operações</f:facet>
-						<p:commandButton value="renovar" />
-						<p:commandButton value="devolver"/>
+						<p:commandButton value="Renovar" />
+						
+						<p:commandButton id="devolver" value="Devolver" ajax="false"
+							action="#{emprestimoControlador.passa(emprestimo)}"/>
+							<!--  onclick="PF('wvDevolver1').show()"/>
+							-->
 					</p:column>
 			
 				</p:dataTable>
@@ -86,7 +90,7 @@
 			
 					<h:panelGrid columns="2">
 						<p:commandButton value="Avançar" update=":msgGlobal :formPart2"
-							oncomplete="verificar(xhr, status, args,'wvEmpInclu1')" 
+							oncomplete="verificar(xhr, status, args, 'wvEmpInclu1', 'wvEmpInclu2')" 
 							onclick="PF('wvEmpInclu2').show()"/>
 							
 						<p:commandButton value="Cancelar" immediate="true"
@@ -126,6 +130,23 @@
 						<p:commandButton value="Cancelar" immediate="true"
 							onclick="PF('wvEmpInclu2').hide()" />
 							
+					</h:panelGrid>
+				
+				</h:form>
+			</p:dialog>
+			
+			<p:dialog closable="true" draggable="true" modal="true" showEffect="fade" hideEffect="fade"
+				 resizable="false" header="Devolução"
+				 widgetVar="wvdevolver1" appendTo="@(body)">
+				<h:form id="formDevolver">
+				
+
+			
+					<h:panelGrid columns="2">
+						<p:commandButton value="Confirmar" />
+							
+						<p:commandButton value="Cancelar" immediate="true"
+							onclick="PF('wvdevolver').hide()" />
 					</h:panelGrid>
 				
 				</h:form>
