@@ -11,7 +11,7 @@ public class Exemplar {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private long exemplar;
-	private int disponivel; // 0=sim; 1=não
+	private int disponivel; // 1=sim; 0=não
 	
 	//Relacionamento de muitos exemplares para com um livro
 	@ManyToOne()
@@ -22,16 +22,20 @@ public class Exemplar {
 	@OneToMany(mappedBy = "exemplar")
 	private List<ItensEmprestimo> itensEmp;
 	
-	//Contrutor
-//	public Exemplar(Livro livro, long exemplar) {
-//		this.livro = livro;
-//		this.exemplar = exemplar;
-//	}
+	//Contrutores
 	public Exemplar() {
 		
 	}
-	public Exemplar(long i) {
-		this.exemplar = i;
+	
+	public Exemplar(Livro livro, long exemplar, int disponivel) {
+		this.exemplar = exemplar;
+		this.livro = livro;
+		this.disponivel = disponivel;
+	}
+	
+	public Exemplar(long exemplar, int disponivel) {
+		this.exemplar = exemplar;
+		this.disponivel = disponivel;
 	}
 	
 	//Metodos get e set
@@ -48,8 +52,8 @@ public class Exemplar {
 		this.exemplar = exemplar;
 	}
 
-	public boolean isDisponivel() {
-		return this.disponivel == 0 ? false : true;
+	public String getDisponivel() {
+		return this.disponivel == 0 ? "Emprestado" : "Disponível";
 	}
 
 	public void setDisponivel(int valor) {

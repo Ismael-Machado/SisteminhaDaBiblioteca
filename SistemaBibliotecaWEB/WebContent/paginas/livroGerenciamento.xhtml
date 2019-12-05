@@ -21,12 +21,14 @@
 				
 				<h:panelGrid columns="5">
 					<p:outputLabel value="#{msgs['gerenciamento.chave']}" for="chave" />
-					<p:inputText id="chave" value="#{livroControlador.chave}" maxlength="25" size="25" placeholder="Título..." />
+					<p:inputText id="chave" value="#{livroControlador.chave}" 
+					maxlength="25" size="25" placeholder="Título..." />
 					
 					<p:commandButton value="#{msgs['gerenciamento.buscar']}" icon="ui-icon-search"
 						ajax="false" action="null"/>
 					
-					<p:commandButton value="#{msgs['gerenciamento.incluir']}" icon="ui-icon-plusthick" update=":formLivroIncluir"
+					<p:commandButton value="#{msgs['gerenciamento.incluir']}" icon="ui-icon-plusthick" 
+						update=":formLivroInclusao"
 						actionListener="#{livroControlador.incluir}"
 						onclick="PF('dlLivroInclusao').show()"/>
 						
@@ -71,18 +73,18 @@
 					</p:column>
 					<p:column style="width: 10%;">
 						<f:facet name="header">#{msgs['app.opcoes']}</f:facet>
-						<p:commandButton id="visualizar" icon="ui-icon-zoomin" update=":forVisu"
-							actionListener="#{livroControlador.retornaLivro(livro)}"
+						<p:commandButton id="visualizar" icon="ui-icon-zoomin" update=":formVisu"
+							actionListener="#{livroControlador.carregaLivro(livro)}"
 							onclick="PF('dlVisu').show()"/>
 						<p:tooltip for="visualizar" value="Visualizar" position="top"/>
 						
 						<p:commandButton id="editar" icon="ui-icon-pencil" update=":formLivroEdicao"
-						actionListener="#{livroControlador.editar(livro)}"
+						actionListener="#{livroControlador.carregaLivro(livro)}"
 						onclick="PF('dlLivroEdicao').show()"/>
 						<p:tooltip for="editar" value="Editar" position="top"/>
 							
 						<p:commandButton id="excluir" icon="ui-icon-trash" update=":formLivroExclusao"
-							actionListener="#{livroControlador.excluir(livro)}"
+							actionListener="#{livroControlador.carregaLivro(livro)}"
 							onclick="PF('dlLivroExclusao').show()"/>
 						<p:tooltip for="excluir" value="Excluir" position="top"/>
 						
@@ -95,7 +97,7 @@
 			<p:dialog closable="true" draggable="true" modal="true" showEffect="fade" hideEffect="fade"
 				 resizable="false" header="#{msgs['livro.inclusao']}"
 				 widgetVar="dlLivroInclusao" appendTo="@(body)">
-				<h:form id="formLivroIncluir">
+				<h:form id="formLivroInclusao">
 				
 					<h:panelGrid columns="2">
 				
@@ -224,9 +226,9 @@
 			<p:dialog closable="true" draggable="true" modal="true" showEffect="fade" hideEffect="fade"
 				 resizable="false" header="Exemplares" width="400"
 				 widgetVar="dlVisu" appendTo="@(body)">
-				<h:form id="forVisu">
+				<h:form id="formVisu">
 	
-					<p:dataTable id="tableVisu" paginator="true" rows="10"
+					<p:dataTable id="tableVisu" scrollable="true" scrollHeight="150"
 						value="#{livroControlador.exemplares}" var="exemplar">
 						<p:column >
 							<f:facet name="header">Livro</f:facet>
@@ -236,13 +238,85 @@
 							<f:facet name="header">Exemplar</f:facet>
 							#{exemplar.exemplar}
 						</p:column>
-						<p:column style="width: 15%;" >
-							<f:facet name="header">Dísponivel</f:facet>
+						<p:column style="width: 20%;" >
+							<f:facet name="header">Status</f:facet>
 							#{exemplar.disponivel}
 						</p:column>
 					</p:dataTable>
+					
+					<p:separator/>
+					
+					<p:panelGrid columns="3">
+						<p:commandButton value="Adicionar" icon="ui-icon-plusthick" update=":formExemplarAdd"
+							oncomplete="PF('dlExemplarAdd').show()"/>
+						
+						<p:commandButton value="Remover" icon="	ui-icon-trash" 
+							update=":formExemplarRemovi :formExemplarRemovi"
+							oncomplete="PF('dlExemplarRemovi').show()"/>
+						
+						<p:commandButton value="Sair" icon="ui-icon-closethick" immediate="true"
+							onclick="PF('dlVisu').hide()" />
+							
+					</p:panelGrid>
 				
 
+				</h:form>
+			</p:dialog>
+			
+			<p:dialog closable="true" draggable="true" modal="true" showEffect="fade" hideEffect="fade"
+				 resizable="false" header="Adicionar Exemplar"
+				 widgetVar="dlExemplarAdd" appendTo="@(body)">
+				<h:form id="formExemplarAdd">
+				
+					<h:panelGrid columns="2">
+						
+						<p:outputLabel value="Livro:" for="livro" />
+						<p:inputText id="livro" value="#{livroControlador.livro.titulo}" readonly="true"/>
+		
+						<p:outputLabel value="Quantidade:" for="quant" />
+						<p:inputText id="quant" value="#{livroControlador.quant}" />
+								
+					</h:panelGrid>
+			
+					<h:panelGrid columns="2">
+						<p:commandButton value="#{msgs['acao.confirmar']}" update=":msgGlobal :formLivro :formVisu" 
+							actionListener="#{livroControlador.adicionarExemplar}"
+							oncomplete="verificar(xhr, status, args,'dlExemplarAdd')" />
+						
+						<p:commandButton value="#{msgs['acao.cancelar']}" immediate="true"
+							onclick="PF('dlExemplarAdd').hide()" />
+							
+					</h:panelGrid>
+									
+				</h:form>
+			</p:dialog>
+			
+			<p:dialog closable="true" draggable="true" modal="true" showEffect="fade" hideEffect="fade"
+				 resizable="false" header="Remover Exemplar"
+				 widgetVar="dlExemplarRemovi" appendTo="@(body)">
+				<h:form id="formExemplarRemovi">
+				
+					<h:panelGrid columns="2">
+						
+						<p:outputLabel value="Livro:" for="livro" />
+						<p:inputText id="livro" value="#{livroControlador.livro.titulo}" readonly="true"/>
+		
+						<p:outputLabel value="Exemplar:" for="exemplar" />
+						<p:inputText id="exemplar" converter="exemplarConversor"
+							value="#{livroControlador.exemplar}" />
+								
+					</h:panelGrid>
+			
+					<h:panelGrid columns="2">
+						<p:commandButton value="#{msgs['acao.confirmar']}" update=":msgGlobal :formLivro :formVisu" 
+							actionListener="#{livroControlador.deleteExemplar}"
+							oncomplete="verificar(xhr, status, args,'dlExemplarRemovi')" />
+						
+						<p:commandButton value="#{msgs['acao.cancelar']}" immediate="true"
+							onclick="PF('dlExemplarRemovi').hide()" />
+							
+					</h:panelGrid>
+									
 				</h:form>
 			</p:dialog>
 			

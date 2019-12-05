@@ -17,14 +17,15 @@ public class LivroConversor implements Converter {
 	public Object getAsObject(FacesContext f, UIComponent comp, String value) {
 		if(value == null || value.isEmpty())
 			return null;
-		return lg.buscarLivro(Integer.valueOf(value));
+//		return lg.buscarLivro(Integer.valueOf(value));
+		return lg.buscarTodosPorTituloContendo(value);
 	}
 
 	@Override
 	public String getAsString(FacesContext f, UIComponent comp, Object value) {
 		if(value == null || !(value instanceof Livro))
 			return "";
-		return String.valueOf(((Livro)value).getId());
+		return String.valueOf(((Livro)value).getTitulo());
 	}
 
 }

@@ -24,8 +24,8 @@
 						maxlength="25" size="25" />
 					<p:commandButton value="Buscar" icon="ui-icon-search" ajax="false" action="null"/> 
 					
-					<p:commandButton value="Emprestar" icon="ui-icon-transferthick-e-w" update=":formPar1"
-						actionListener="#{emprestimoControlador.incluir}"
+					<p:commandButton value="Emprestar" icon="ui-icon-transferthick-e-w" update=":formPart1"
+						actionListener="#{emprestimoControlador.limpar}"
 						onclick="PF('wvEmpInclu1').show()"/>
 						
 				</h:panelGrid>
@@ -46,21 +46,21 @@
 					</p:column>
 					
 					<p:column>
-					<f:facet name="header">Retirada</f:facet>
-						#{emprestimo.dataHorario}
+					<f:facet name="header">Data de Empréstimo</f:facet>
+						#{emprestimo.dataRetirada}
 					</p:column>
 					
 					<p:column>
-					<f:facet name="header">Devolução</f:facet>
-						#{emprestimo.dataDevolucao}
+					<f:facet name="header">Prazo de Devolução</f:facet>
+						#{emprestimo.prazoDevolucao}
 					</p:column>
 					
-					<p:column>
+					<p:column style="width: 19%;">
 						<f:facet name="header">Operações</f:facet>
-						<p:commandButton value="Renovar" />
+						<p:commandButton value="Renovar" icon="ui-icon-refresh" />
 						
-						<p:commandButton id="devolver" value="Devolver" update=":formDevolver"
-							actionListener="#{emprestimoControlador.passa(emprestimo)}"
+						<p:commandButton id="devolver" value="Devolver" icon="ui-icon-check" 
+							update=":formDevolver" actionListener="#{emprestimoControlador.carregaEmprestimo(emprestimo)}"
 							onclick="PF('wvDevolver').show()"/>
 							
 					</p:column>
@@ -69,21 +69,26 @@
 	
 			</h:form>
 			
+			
 			<p:dialog closable="true" draggable="true" modal="true" showEffect="fade" hideEffect="fade"
 				 resizable="false" header="Empréstimos"
 				 widgetVar="wvEmpInclu1" appendTo="@(body)">
-				<h:form id="formPar1">
+				<h:form id="formPart1">
 				
 					<h:panelGrid columns="2">
 				
 						<p:outputLabel value="CPF: " for="cpf"/>
-						<p:inputMask mask="999.999.999-99" id="cpf" converter="usuarioConversor"
-							value="#{emprestimoControlador.usuario}"
-							required="true" requiredMessage="O campo CPF é inválido"/>
-		
-						<p:outputLabel value="Livro: " for="livro" />
-						<p:inputText id="livro" converter="livroConversor"
-							value="#{emprestimoControlador.livro}"/>
+	 					<p:autoComplete id="cpf" value="#{usuarioControlador.usuario}" 
+	 						completeMethod="#{usuarioControlador.completaCPF}" var="usuario" itemLabel="#{usuario.CPF}"
+	 						itemValue="#{usuario}" converter="usuarioConversor"/>	
+					
+						
+						<p:outputLabel value="Livro:" for="livro" />
+						<p:autoComplete id="livro" value="#{livroControlador.livro}" 
+	 						completeMethod="#{livroControlador.completaTitulo}" var="livro" itemLabel="#{livro.titulo}"
+	 						itemValue="#{livro}" converter="livroConversor"/>
+	 			
+
 		
 								
 					</h:panelGrid>
@@ -109,17 +114,17 @@
 					
 						<p:outputLabel value="Titulo:" for="titulo" />
 						<p:inputText id= "titulo" readonly="true"
-							value="#{emprestimoControlador.livro.titulo}"/>
+							value="#{livroControlador.livro.titulo}"/>
 							
 						<p:outputLabel value="Exemplar:" for="exemplar" />
 						<p:inputText id= "exemplar" converter="exemplarConversor"
-							value="#{emprestimoControlador.exemplar}" />
+							value="#{livroControlador.exemplar}" />
 									
 						<p:outputLabel value="Data do empréstimo:" for="dataEmp" />
-						<p:inputMask mask="99/99/9999" id="dataEmp" value="#{emprestimoControlador.emprestimo.dataHorario}"/>
+						<p:inputMask mask="99/99/9999" id="dataEmp" value="#{emprestimoControlador.emprestimo.dataRetirada}"/>
 				
 						<p:outputLabel value="Data da devolução:" for="dataDev" />
-						<p:inputMask mask="99/99/9999" id="dataDev" value="#{emprestimoControlador.emprestimo.dataDevolucao}" />
+						<p:inputMask mask="99/99/9999" id="dataDev" value="#{emprestimoControlador.emprestimo.prazoDevolucao}" />
 									
 					</h:panelGrid>
 	
@@ -141,29 +146,42 @@
 				<h:form id="formDevolver">
 				
 					<p:dataTable id="tableDev" 
-						value="#{emprestimoControlador.emprestimo}" var="dlemprestimo">
-						<p:column >
-							<f:facet name="header">Nome</f:facet>
-							#{dlemprestimo.usuario.nome}
+						value="#{emprestimoControlador.emprestimo.itensEmprestimo}" var="item">
+						<p:column style="width: 18%">
+							<f:facet name="header">Empréstimo</f:facet>
+							#{item.emprestimo.id}
 						</p:column>
+						
+				<!--	<p:column >
+							<f:facet name="header">Nome</f:facet>
+							#{item.emprestimo.usuario.nome}
+						</p:column>
+				-->
 						<p:column >
 							<f:facet name="header">Livro</f:facet>
-							#{dlemprestimo.itensEmprestimo.get(0).exemplar.livro.titulo}
+							#{item.exemplar.livro.titulo}
 						</p:column>
-						<p:column style="width: 5%;" >
-							<f:facet name="header">Ex</f:facet>
-							#{dlemprestimo.itensEmprestimo.get(0).exemplar.exemplar}
+						<p:column style="width: 15%;" >
+							<f:facet name="header">Exemplar</f:facet>
+							#{item.exemplar.exemplar}
 						</p:column>
-				</p:dataTable>
-				<p:separator/>
-					<h:panelGrid columns="2">
-						<p:commandButton value="Confirmar" update=":msgGlobal :formEmp"
+						
+					</p:dataTable>
+				
+					<p:separator/>
+				
+					<p:panelGrid columns="3" >
+						<p:commandButton value="Devolver Todos" update=":msgGlobal :formEmp"
 							actionListener="#{emprestimoControlador.gravaDevolucao}"
 							oncomplete="verificar(xhr, status, args, 'wvDevolver')" />
 							
-						<p:commandButton value="Cancelar" immediate="true"
+						<p:commandButton value="Escolher" update=":msgGlobal :formEmp"
+							actionListener="#{emprestimoControlador.gravaDevolucao}"
+							oncomplete="verificar(xhr, status, args, 'wvDevolver')" />
+							
+						<p:commandButton value="Sair" immediate="true"
 							onclick="PF('wvDevolver').hide()" />
-					</h:panelGrid>
+					</p:panelGrid>
 				
 				</h:form>
 			</p:dialog>

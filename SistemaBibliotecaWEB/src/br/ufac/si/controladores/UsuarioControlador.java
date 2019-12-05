@@ -16,8 +16,10 @@ import br.ufac.si.recursos.ExibirMensagem;
 @SessionScoped
 public class UsuarioControlador {
 	private UsuarioGerente ug;
-	private Usuario usuario = new Usuario();
+	public static Usuario usuario = new Usuario();
 	private String chave = "";
+	private String auxSexo;
+	List<Usuario> usuarios = new ArrayList<Usuario>();
 	private List<String> generos = new ArrayList<String>() {	
 					{
 						add("Masculino");
@@ -41,46 +43,75 @@ public class UsuarioControlador {
 	}
 
 	public void setUsuario(Usuario u) {
-		this.usuario = u;
+		usuario = u;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
 	}
 	
+	
+	public String getAuxSexo() {
+		return auxSexo;
+	}
+
+	public void setAuxSexo(String auxSexo) {
+		this.auxSexo = auxSexo;
+	}
+
 	public List<String> getGeneros() {
 		
 		return this.generos;
 	}
+	
 
-	//Metodo que envia para tela de inserção de um usuario
-	public void incluir() {
-		this.usuario = new Usuario();
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
+	}
+
+	
+	public List<Usuario> getUsuarios(){
+		this.usuarios = ug.buscarTodosPorNomeContendo(chave);
+		return this.usuarios;
+	}
+	
+	//Cria uma Instancia nova sempre que incluir um usuário
+	public void preparar() {
+		usuario = new Usuario();
 		//return "/paginas/usuarioInclusao.xhtml?faces-redirect=true";
 	}
 
-	//Metodo que de fato insere um usuario no banco
+
+	//Metodo para carregar usuario selecionado da table
+	public void carregaUsuario(Usuario u) {
+		usuario = u;
+		
+	}
+	
+	//Metodo para inserir um usuario no banco
 	public void adicionar() {
-		try {
-			
-			ug.incluirUsuario(this.usuario);
+		try { 
+			if(this.auxSexo.equals("Masculino")) {
+				usuario.setSexo("M");
+			}else {
+				usuario.setSexo("F");
+			}
+				
+			ug.incluirUsuario(usuario);
 			ExibirMensagem.sucesso("Usuario cadastrado com sucesso");
 
 		} catch (Exception e) {
 			ExibirMensagem.error("Erro ao tentar cadastrar usuário :"+e.getMessage());
 		}
-//		return "/paginas/usuarioGerenciamento.xhtml";
-
-
-	}
-
-	//Metodo que enviar para tela de edição de usuario
-	public void editar(Usuario u) {
-		this.usuario = u;
-//		return "/paginas/usuarioEdicao.xhtml?faces-redirect=true"
+		//Limpa os dados do usuario após a inclusão
+		preparar();
 		
 	}
 
-	//Metodo que de fato atualiza um usuario no banco
+	//Metodo para atualizar um usuario no banco
 	public void atualizar() {
 		try {
-			ug.alterarUsuario(this.usuario);
+			ug.alterarUsuario(usuario);
 			
 			ExibirMensagem.sucesso("Usuário atualizado com sucesso!");
 
@@ -88,50 +119,36 @@ public class UsuarioControlador {
 			ExibirMensagem.error("Erro ao tentar atualizar usuário :"+e.getMessage());
 		}
 		
-//		return "/paginas/usuarioGerenciamento.xhtml";
 	}
 
-	//Metodo que enviar para tela de exclusão de usuario
-	public void excluir(Usuario u) {
-		this.usuario = u;
-		
-//		return "/paginas/usuarioExclusao.xhtml?faces-redirect=true";
-	}
 	
-//	//Metodo que de fato remove um usuario do banco
-	public String remover() {
+//	//Metodo para remover um usuario do banco
+	public void remover() {
 		try {
 			
-			ug.removerUsuario(this.usuario);
+			ug.removerUsuario(usuario);
 			ExibirMensagem.sucesso("Usuário removido com sucesso!");
 
 		} catch (Exception e) {
 			ExibirMensagem.error("Erro ao tentar remover usuário :"+e.getMessage());
 		}
-		return "/paginas/usuarioGerenciamento.xhtml";
-	}
-
-	//Metodo para retornar uma lista de usuarios
-	public List<Usuario> getUsuarios(){
-		return ug.buscarTodosPorNomeContendo(chave);
-	}
-
-
-	//Metodo para retornar um Usuario
-	public Usuario getUsuario() {
-		return this.usuario;
-	}
 	
-	//Metodo que retorna o ID do usuario corrente do Table
-//	public String carregarUsuario() {
-//	
-//		String s = ExibirMensagem.getParam("usuID");
-//		System.out.println(s);
-//		if(s != null) {
-//			this.usuario = ug.buscarUsuario(Long.valueOf(s));
-//		}
-//		return "/paginas/usuarioEdicao.xhtml?faces-redirect=true";
-//	}
+	}
 
+	
+	//AutoComplete : Lista de Usuario
+	public List<Usuario> completaCPF(String query) {
+		this.usuarios = ug.buscarTodos();
+		
+		List<Usuario> sugestoes = new ArrayList<Usuario>();
+		for (Usuario u : this.usuarios) {
+			if (u.getCPF().startsWith(query)) {
+				sugestoes.add(u);
+			}
+		}
+		return sugestoes;
+	}
+
+	
 
 }

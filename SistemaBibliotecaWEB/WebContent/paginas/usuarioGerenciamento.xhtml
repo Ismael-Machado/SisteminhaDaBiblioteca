@@ -27,7 +27,7 @@
 						ajax="false" action="null" />
 					
 					<p:commandButton value="#{msgs['gerenciamento.incluir']}" icon="ui-icon-plusthick" update=":fmIncluir:pgIncluir"
-						actionListener="#{usuarioControlador.incluir}" 
+						actionListener="#{usuarioControlador.preparar}" 
 						onclick="PF('wvDlInserir').show()" />
 				</h:panelGrid>
 				
@@ -63,12 +63,12 @@
 					<p:column style="width: 7%;">
 						<f:facet name="header">#{msgs['app.opcoes']}</f:facet>
 						<p:commandButton id="editar" icon="ui-icon-pencil" update=":form"
-							actionListener="#{usuarioControlador.editar(usuario)}"
+							actionListener="#{usuarioControlador.carregaUsuario(usuario)}"
 							onclick="PF('wvDlEditar').show()" />
 						<p:tooltip for="editar" value="Editar" position="top"/>
 							
 						<p:commandButton id="excluir" icon="ui-icon-trash" update=":formExclusao"
-							actionListener="#{usuarioControlador.excluir(usuario)}"
+							actionListener="#{usuarioControlador.carregaUsuario(usuario)}"
 							onclick="PF('wvDlExclusao').show()" />
 						<p:tooltip for="excluir" value="Excluir" position="top"/>
 						
@@ -94,16 +94,18 @@
 						<p:inputMask mask="999.999.999-99" id="cpf" value="#{usuarioControlador.usuario.CPF}" />
 						
 						<p:outputLabel value="#{msgs['usuario.genero']}:" for="sexo" />
-						<p:selectOneMenu id="sexo" value="#{usuarioControlador.usuario.sexo}">
+						<p:selectOneMenu id="sexo" value="#{usuarioControlador.auxSexo}" required="true" 
+								requiredMessage="O campo sexo é obrigatório">
 							<f:validateBean />
-							<f:selectItem noSelectionOption="true" itemLabel="--Selecione--"/>	
+						  	<f:selectItem noSelectionOption="true" itemLabel="--Selecione--"/>	
+						 
 							<f:selectItems value="#{usuarioControlador.generos}" var="g" 
 										itemValue="#{g}" itemLabel="#{g}"/>
-							
-						<!-- 						
-						 	<f:selectItem itemValue="#{msgs['usuario.masculino']}" itemLabel="#{msgs['usuario.masculino']}" />
-							<f:selectItem itemvalue="#{msgs['usuario.feminino']}" itemLabel="#{msgs['usuario.feminino']}" />
-						 -->	
+										
+						<!-- <f:selectItem itemValue="M" itemLabel="#{msgs['usuario.masculino']}" />
+							<f:selectItem itemvalue="F" itemLabel="#{msgs['usuario.feminino']}" />
+					
+						 --> 	
 						 
 						</p:selectOneMenu>
 						

@@ -9,33 +9,35 @@ import br.ufac.si.gerentes.*;
 public class LivroTeste {
 
 	public static void main(String [] args) {
-		//Adicionar Livro
 		
-		LivroGerente livroG = new LivroGerente();	
-		Livro livro = livroG.buscarLivro(1);
-		List<Exemplar> exemplares = livroG.buscarExemplaresDisponivel(livro);
 		
-
-//		
-//		Livro l2 = new Livro("Introdução a shell script", "Kevin", "Editora Saraiva", "1972-09-12", "TC6680", 2);
-//		
+		LivroGerente livroG = new LivroGerente();		
+		
+		//Adicionar Livro =============================================================================
+//		Livro l2 = new Livro("Programação Shell Linux", "Julio Cezar Neves", "Editora Saraiva", "1987", "TC6680", 5);
 //		livroG.incluirLivro(l2);
-		livroG.encerrar();
+//		livroG.encerrar();
 		
+		//Atualizar um livro ===========================================================================
+//		Livro livro = livroG.buscarLivro(6);
+//		livro.setAutor("Susan caixao");
+//		livroG.alterarLivro(livro);
+//		livroG.encerrar();
 		
-//				
-		//Fazendo consultas em Livro
+		//Excluir Livro ================================================================================
+//		Livro livro = livroG.buscarLivro(6);
+//		livroG.removerLivro(livro);
+//		livroG.encerrar();
+			
 		
-//		List<Livro> livros = livroG.buscarTodosPorNomeContendo("");
+		//Realizando consulta em Livros ================================================================
+		
+//		List<Livro> livros = livroG.buscarTodosPorTituloContendo2("");
 //		for(Livro l : livros) {
-//			System.out.println("Titulo :"+l.getTitulo()+" - Quantidade: "+l.getQuantidade());
+//			System.out.println("Titulo: "+l.getTitulo()+" - Quantidade: "+l.getQuantidade());
 //		}
+//		livroG.encerrar();
 		
-		
-		//Fazendo consulta de um exemplar
-//		ExemplarGerente eg = new ExemplarGerente();
-//		System.out.println(eg.buscarExemplar(2, 2).getLivro().getTitulo());
-//		eg.encerrar();
 		
 	}
 	

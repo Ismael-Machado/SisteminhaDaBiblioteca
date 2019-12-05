@@ -8,40 +8,42 @@ public class EmprestimoTeste {
 
 	public static void main(String [] args) {
 		//Acicionar Emprestimo
+		
 		EmprestimoGerente emprestimoG = new EmprestimoGerente();
-//		ExemplarGerente exemplarG = new ExemplarGerente();
-//		UsuarioGerente usuG = new UsuarioGerente();
-//
-//		Emprestimo emprestimo = new Emprestimo();
-//
-//		Usuario usuario = usuG.buscarUsuario(1);
-//
-//		Exemplar e1 = exemplarG.buscarExemplar(1);
-//		Exemplar e2 = exemplarG.buscarExemplar(23);
-//
-//		List<ItensEmprestimo> itens = new ArrayList<>();
-//		ItensEmprestimo item1 = new ItensEmprestimo(emprestimo, e1);
-//		ItensEmprestimo item2 = new ItensEmprestimo(emprestimo, e2);
-//		itens.add(item1);
-//		itens.add(item2);
-//
-//		emprestimo.setDataHorario("2019-11-02");
-//		emprestimo.setDataDevolucao("2019-11-15");
-//		emprestimo.setStatus("pendente");
-//		emprestimo.setUsuario(usuario);
-//		emprestimo.setItensEmprestimo(itens);		
-//
-//		emprestimoG.fazerEmprestimo(emprestimo);
-//
-//
+		Emprestimo emprestimo;
+		ExemplarGerente exemplarG = new ExemplarGerente();
+		UsuarioGerente usuG = new UsuarioGerente();
+		
+		Usuario usuario = usuG.buscarUsuario(1);
+
+		emprestimo = new Emprestimo(usuario, "03/12/2019", "14/12/2019");
+
+		Exemplar e1 = exemplarG.buscarExemplar(10);
+		Exemplar e2 = exemplarG.buscarExemplar(25);
+
+		ItensEmprestimo item1 = new ItensEmprestimo(emprestimo, e1); // é necessario colocar emprestimo?
+		ItensEmprestimo item2 = new ItensEmprestimo(emprestimo, e2);
+		
+		emprestimo.addItemEmprestimo(item1);
+		emprestimo.addItemEmprestimo(item2);		
+
+		emprestimoG.fazerEmprestimo(emprestimo);
+
+
+		emprestimoG.encerrar();
+		usuG.encerrar();
+		exemplarG.encerrar();
+		
+		
+		//Remover Empréstimo ========================================
+//		emprestimo = emprestimoG.buscarEmprestimo(1);
+//		emprestimoG.removerEmprestimo(emprestimo);
 //		emprestimoG.encerrar();
-//		usuG.encerrar();
-//		exemplarG.encerrar();
 		
 		
 
-		//Fazendo consulta Emprestimo
-//		List<Emprestimo> emprestimos = emprestimoG.buscarTodosPorNomeContendo("tiago");
+		//Fazendo consulta Emprestimo=====================================================
+//		List<Emprestimo> emprestimos = emprestimoG.buscarTodosPorNomeContendo("");
 //		for(Emprestimo e : emprestimos) {
 //			System.out.println("Id: "+e.getId());
 //		}

@@ -50,16 +50,33 @@ public class LivroGerente {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Livro> buscarTodosPorNome(){
-		return em.createNamedQuery("Livro.todosPorNome").getResultList();
+	public List<Livro> buscarTodosPorTitulo(){
+		return em.createNamedQuery("Livro.todosPorTitulo").getResultList();
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Livro> buscarTodosPorNomeContendo(String termo){
-		return em
-				.createNamedQuery("Livro.todosPorNomeContendo")
-				.setParameter("termo", "%"+termo+"%")
-				.getResultList();
+	public Livro buscarTodosPorTituloContendo(String titulo){
+		try {
+			return (Livro) em
+					.createNamedQuery("Livro.todosPorTituloContendo")
+					.setParameter("titulo", "%"+titulo+"%")
+					.getSingleResult();
+		}catch (Exception e) {
+			return null;
+		}
+		
+	}	
+	
+	public List<Livro> buscarTodosPorTituloContendo2(String titulo){
+		try {
+			return em
+					.createNamedQuery("Livro.todosPorTituloContendo")
+					.setParameter("titulo", "%"+titulo+"%")
+					.getResultList();
+		} catch (Exception e) {
+			return null;
+		}
+		
 	}	
 	
 	@SuppressWarnings("unchecked")

@@ -53,10 +53,10 @@ public class UsuarioGerente {
 			return em.createNamedQuery("Usuario.todosPorNome").getResultList();
 		}
 		@SuppressWarnings("unchecked")
-		public List<Usuario> buscarTodosPorNomeContendo(String termo){
+		public List<Usuario> buscarTodosPorNomeContendo(String nome){
 			return em
 					.createNamedQuery("Usuario.todosPorNomeContendo")
-					.setParameter("termo", "%"+termo+"%")
+					.setParameter("nome", "%"+nome+"%")
 					.getResultList();
 		}
 		
@@ -73,19 +73,19 @@ public class UsuarioGerente {
 			
 		}
 		
-		@SuppressWarnings("unchecked")
-		public Usuario autenticar(String cpf, String senha){
-			try {
-				return (Usuario) em
-						.createNamedQuery("Usuario.autentica")
-						.setParameter("cpf", cpf)
-						.setParameter("senha", senha)
-						.getSingleResult();
-			} catch (Exception e) {
-				return null;
-			}
-			
-		}
+//		@SuppressWarnings("unchecked")
+//		public Usuario autenticar(String cpf, String senha){
+//			try {
+//				return (Usuario) em
+//						.createNamedQuery("Usuario.autentica")
+//						.setParameter("cpf", cpf)
+//						.setParameter("senha", senha)
+//						.getSingleResult();
+//			} catch (Exception e) {
+//				return null;
+//			}
+//			
+//		}
 
 		public void encerrar() {
 			em.close();

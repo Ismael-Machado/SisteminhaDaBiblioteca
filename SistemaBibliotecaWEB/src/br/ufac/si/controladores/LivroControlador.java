@@ -1,6 +1,8 @@
 package br.ufac.si.controladores;
 import java.util.*;
 import javax.faces.bean.*;
+import javax.xml.stream.util.EventReaderDelegate;
+
 import br.ufac.si.entidades.*;
 import br.ufac.si.gerentes.*;
 import br.ufac.si.recursos.ExibirMensagem;
@@ -10,8 +12,11 @@ import br.ufac.si.recursos.ExibirMensagem;
 public class LivroControlador {
 
 	private LivroGerente lg;
-	private Livro livro = new Livro();
-	private Exemplar exemplar;
+	public static Livro livro = new Livro();
+	public List<Livro> livros = new ArrayList<>();
+//	public List<Exemplar> exemplares = new ArrayList<>();
+	public static Exemplar exemplar;
+	private int quant; // quantidade de exemplares que serão adicionados
 	private String chave = "";
 	
 	public LivroControlador() {
@@ -23,14 +28,10 @@ public class LivroControlador {
 		return livro;
 	}
 
-	public void setLivro(Livro livro) {
-		this.livro = livro;
+	public void setLivro(Livro l) {
+		livro = l;
 	}
 	
-	public List<Livro> getLivros(){
-		return lg.buscarTodosPorNomeContendo(chave);
-	}
-
 	public String getChave() {
 		return chave;
 	}
@@ -39,68 +40,42 @@ public class LivroControlador {
 		this.chave = chave;
 	}
 	
-	
 	public Exemplar getExemplar() {
 		return exemplar;
 	}
 
-	public void setExemplar(Exemplar exemplar) {
-		this.exemplar = exemplar;
+	public void setExemplar(Exemplar e) {
+		exemplar = e;
+	}
+	
+	
+	public void setQuant(int quant) {
+		this.quant = quant;
+	}
+	
+	public int getQuant() {
+		return quant;
 	}
 
-	//Metodo que enviar para tela de edição de livro
-	public void editar(Livro livro) {
-		this.livro = livro;
-//		return "/paginas/livroEdicao.xhtml?faces-redirect=true";
+	public List<Livro> getLivros(){
+		this.livros = lg.buscarTodosPorTituloContendo2(chave);
+		return this.livros;
 	}
 	
-	//Metodo que de fato atualiza um livro no banco
-	public void atualizar() {
-		try {
-			lg.alterarLivro(livro);
-			ExibirMensagem.sucesso("Livro atualizado com sucesso!");
-		} catch (Exception e) {
-			ExibirMensagem.error("Erro ao tentar atualizar Livro :"+e.getMessage());
-		}
-		
-//		return "/paginas/livroGerenciamento.xhtml";
-	}
 	
-	//Metodo que envia para tela de inserção de um livro
-	public String incluir() {
+	public void setLivros(List<Livro> livros) {
+		this.livros = livros;
+	}
+
+	//Cria uma instancia nova sempre que inserir livros
+	public void incluir() {
 		this.livro = new Livro();
-		return "/paginas/livroInclusao.xhtml?faces-redirect=true";
+//		return "/paginas/livroInclusao.xhtml?faces-redirect=true";
 	}
-	
-	//Metodo que de fato insere um livro no banco
-	public String adicionar() {
-		try {
-			ExibirMensagem.sucesso("Livro cadastrado com sucesso");
-			this.livro.setQuantExemplares(livro.getQuantidade());
-			lg.incluirLivro(livro);
-		} catch (Exception e) {
-			ExibirMensagem.error("Erro ao tentar cadastrar livro :"+e.getMessage());
-		}
-		
-		return "/paginas/livroGerenciamento.xhtml";
-	}
-	
-	//Metodo que enviar para tela de exclusão de livro
-	public String excluir(Livro livro) {
+
+	////Metodo para carregar livro selecionado da table
+	public void carregaLivro(Livro livro) {
 		this.livro = livro;
-		return "/paginas/livroExclusao.xhtml?faces-redirect=true";
-	}
-	
-	//Metodo que de fato remove um livro do banco
-	public String remover() {
-		try {
-			lg.removerLivro(livro);
-			ExibirMensagem.sucesso("Livro removido com sucesso!");
-		} catch (Exception e) {
-			ExibirMensagem.error("Erro ao tentar remover livro :"+e.getMessage());
-		}
-		
-		return "/paginas/livroGerenciamento.xhtml";
 	}
 	
 	//Metodo que retorna quantidade disponivel de livros
@@ -109,14 +84,92 @@ public class LivroControlador {
 		return exemplares.size();
 	}
 	
-	//Metodo que retorna todos os exemplares de um livro
-	public List<Exemplar> getExemplares(){
-		return lg.buscarTodosExemplares(this.livro);
+	//Adiciona exemplares a livro já existente
+	public void adicionarExemplar() {
+		ExemplarGerente eg = new ExemplarGerente();
+		try {
+			eg.incluirExempares(livro, quant);
+			ExibirMensagem.sucesso("Adicionado com sucesso!");
+		} catch (Exception e) {
+			ExibirMensagem.error("Erro ao tentar adicionar: "+e.getMessage());
+		}
+		
 	}
 	
-	//Metodo que pega o livro corrente da table
-	public void retornaLivro(Livro livro) {
-		this.livro = livro;
+	//Remove exemplar de um Livro
+	public void deleteExemplar() {
+		ExemplarGerente eg = new ExemplarGerente();
+		
+		Livro l = lg.buscarLivro(livro.getId());
+		Exemplar ex = eg.buscarExemplar(exemplar.getId());
+		
+		try {
+//			System.out.println("Livro ID----------------> " + livro.getId());
+//			System.out.println("Exemplar ID----------------> " + exemplar.getExemplar());
+			eg.removerExemplar(l, ex);
+			ExibirMensagem.sucesso("Removido com sucesso!");
+		} catch (Exception e) {
+			ExibirMensagem.error("Erro ao tentar remover: "+e.getMessage());
+		}
+		
 	}
+
+	//Metodo que retorna todos os exemplares de um livro
+	public List<Exemplar> getExemplares(){
+		return lg.buscarTodosExemplares(livro);
+	}
+		
+
+
+	//Metodo para atualizar um livro no banco
+	public void atualizar() {
+		try {
+			lg.alterarLivro(livro);
+			ExibirMensagem.sucesso("Livro atualizado com sucesso!");
+		} catch (Exception e) {
+			ExibirMensagem.error("Erro ao tentar atualizar Livro :"+e.getMessage());
+		}
+	
+	}
+	
+	
+	//Metodo para adicionar um livro no banco
+	public void adicionar() {
+		try {
+			this.livro.setQuantExemplares(livro.getQuantidade());
+			lg.incluirLivro(livro);
+			ExibirMensagem.sucesso("Livro cadastrado com sucesso!");
+		} catch (Exception e) {
+			ExibirMensagem.error("Erro ao tentar cadastrar livro :"+e.getMessage());
+		}
+	
+	}
+	
+	
+	//Metodo para remover um livro do banco
+	public void remover() {
+		try {
+			lg.removerLivro(livro);
+			ExibirMensagem.sucesso("Livro removido com sucesso!");
+		} catch (Exception e) {
+			ExibirMensagem.error("Erro ao tentar remover livro :"+e.getMessage());
+		}
+	
+	}
+	
+	//AutoComplete : Lista de Livros
+	public List<Livro> completaTitulo(String query) {
+		this.livros = lg.buscarTodos();
+
+		List<Livro> sugestoes = new ArrayList<Livro>();
+		for (Livro l : this.livros) {
+			if (l.getTitulo().startsWith(query)) {
+				sugestoes.add(l);
+			}
+		}
+		return sugestoes;
+	}
+	
+	
 	
 }

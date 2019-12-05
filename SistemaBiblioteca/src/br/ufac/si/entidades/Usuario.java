@@ -14,11 +14,11 @@ import org.hibernate.validator.constraints.br.*;
 	@NamedQuery(name="Usuario.todosPorNome", 
 		query="SELECT a FROM Usuario a ORDER BY a.nome"),
 	@NamedQuery(name="Usuario.todosPorNomeContendo", 
-		query="SELECT a FROM Usuario a WHERE a.nome LIKE :termo ORDER BY a.nome"),
+		query="SELECT a FROM Usuario a WHERE a.nome LIKE :nome ORDER BY a.nome"),
 	@NamedQuery(name="Usuario.contendoCPF", 
-		query="SELECT a FROM Usuario a WHERE a.CPF = :cpf"), // LIKE :termo ORDER BY a.nome"
-	@NamedQuery(name="Usuario.autentica", 
-	query="SELECT a FROM Usuario a WHERE a.CPF = :cpf AND a.senha = :senha")
+		query="SELECT a FROM Usuario a WHERE a.CPF = :cpf") // LIKE :termo ORDER BY a.nome"
+//	@NamedQuery(name="Usuario.autentica", 
+//	query="SELECT a FROM Usuario a WHERE a.CPF = :cpf AND a.senha = :senha")
 })
 @Table(name="usuarios")
 public class Usuario {
@@ -31,13 +31,12 @@ public class Usuario {
 	@CPF(message = "O CPF informado é inválido")
 	private String CPF;
 	@NotEmpty(message = "O campo sexo é obrigatório")
+	@Column(length=1)
 	private String sexo;
 	@NotEmpty(message = "O campo email é obrigatório")
 	@Email(message = "O email informado é inválido")
 	private String email;
 	private String fone;
-	@Size(min = 6, message = "Senha deve conter no mínimo 6 caracteres")
-	private String senha;
 	@Transient	//--------------------->Significa que o atributo não vai aparecer no banco
 	public boolean regular = true; //apto a fazer emprestimo
 	
@@ -74,15 +73,11 @@ public class Usuario {
 	public String getCPF() {
 		return this.CPF;
 	}
+	
 	public void setCPF(String cpf) {
 		this.CPF = cpf;
 	}
-	public String getSenha() {
-		return senha;
-	}
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
+	
 	public boolean isRegular() {
 		return regular;
 	}
@@ -96,7 +91,15 @@ public class Usuario {
 		this.emprestimos = emprestimos;
 	}
 	public String getSexo() {
-		return sexo;
+		try {
+			if(sexo.equals("M"))
+				return "Masculino";
+			return "Feminino";
+		}catch (Exception e) {
+			return "Não sei";
+		}
+		
+		
 	}
 	public void setSexo(String sexo) {
 		this.sexo = sexo;

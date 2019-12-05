@@ -16,10 +16,17 @@ public class ExemplarConversor implements Converter {
 	
 	@Override
 	public Object getAsObject(FacesContext f, UIComponent comp, String value) {
+
 		long exemplar = Integer.valueOf(value);
-		if(value == null || value.isEmpty())
+		if(value == null || value.isEmpty()) {
 			return null;
-		return eg.buscarExemplar(exemplar, EmprestimoControlador.livro.getId());
+		}else {
+			System.out.println("Livro-------------------------------> " +LivroControlador.livro.getId());
+			System.out.println("Exemplar-------------------------------> " +exemplar);
+			return eg.buscarExemplar(LivroControlador.livro.getId(), exemplar);
+		}
+			
+		
 	}
 
 	@Override

@@ -13,12 +13,12 @@ import javax.validation.constraints.Size;
 @NamedQueries({
 	@NamedQuery(name="Livro.todos", 
 		query="SELECT a FROM Livro a"),
-	@NamedQuery(name="Livro.todosPorNome", 
+	@NamedQuery(name="Livro.todosPorTitulo", 
 		query="SELECT a FROM Livro a ORDER BY a.titulo"),
-	@NamedQuery(name="Livro.todosPorNomeContendo", 
-		query="SELECT a FROM Livro a WHERE a.titulo LIKE :termo ORDER BY a.titulo"),
+	@NamedQuery(name="Livro.todosPorTituloContendo", 
+		query="SELECT a FROM Livro a WHERE a.titulo LIKE :titulo"),
 	@NamedQuery(name="Livro.exemplaresDisponivel", 
-		query="SELECT e FROM Livro l, Exemplar e WHERE l.id = :id AND l.id = e.livro AND e.disponivel = 0"),
+		query="SELECT e FROM Livro l, Exemplar e WHERE l.id = :id AND l.id = e.livro AND e.disponivel = 1"),
 	@NamedQuery(name="Livro.todosExemplares", 
 		query="SELECT e FROM Livro l, Exemplar e WHERE l.id = :id AND l.id = e.livro")
 })
@@ -115,6 +115,6 @@ public class Livro {
 	}
 	public void setQuantExemplares(int quant) {
 		for(long i=1;i<=quant;i++)
-			this.exemplares.add(new Exemplar(i));
+			this.exemplares.add(new Exemplar(i, 1)); // 1 = livro disponível
 	}
 }

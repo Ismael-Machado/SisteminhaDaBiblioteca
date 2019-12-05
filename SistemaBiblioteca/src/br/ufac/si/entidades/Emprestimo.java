@@ -1,8 +1,10 @@
 package br.ufac.si.entidades;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @NamedQueries({
@@ -16,9 +18,11 @@ public class Emprestimo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	private String dataHorario;
-	private String dataDevolucao;
-	private String status;
+	@NotEmpty(message = "O campo data de retirada é obrigatório")
+	private String dataRetirada;
+	@NotEmpty(message = "O campo prazo de devolucão é obrigatório")
+	private String prazoDevolucao;
+//	private String status;
 	
 	//Relacionamento de muitos emprestimos para um cliente
 	@ManyToOne()
@@ -27,18 +31,18 @@ public class Emprestimo {
 	
 	//Mapeando um empréstimo com muitos itens
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "emprestimo")
-	private List<ItensEmprestimo> itensEmprestimo;
+	private List<ItensEmprestimo> itensEmprestimos;
 
 	//Contrutores
-	public Emprestimo(String dataHorario, String dataDevol, String status, Usuario usuario, List<ItensEmprestimo> itens) {
-		this.dataHorario = dataHorario;
-		this.dataDevolucao = dataDevol;
+	public Emprestimo(Usuario usuario, String dataRetirada, String prazo) {
+		this.dataRetirada = dataRetirada;
+		this.prazoDevolucao = prazo;
 		this.usuario = usuario;
-		this.status = status;
-		this.itensEmprestimo = itens;
+		itensEmprestimos = new ArrayList<ItensEmprestimo>();
+	
 	}
 	public Emprestimo() {
-		
+		itensEmprestimos = new ArrayList<ItensEmprestimo>();
 	}
 	
 	
@@ -46,36 +50,44 @@ public class Emprestimo {
 	public long getId() {
 		return this.id;
 	}
-	public String getDataHorario() {
-		return this.dataHorario;
+	public String getDataRetirada() {
+		return this.dataRetirada;
 	}
-	public void setDataHorario(String dataHorario) {
-		this.dataHorario = dataHorario;
+	public void setDataRetirada(String retirada) {
+		this.dataRetirada = retirada;
 	}
-	public String getDataDevolucao() {
-		return this.dataDevolucao;
+	
+	public String getPrazoDevolucao() {
+		return prazoDevolucao;
 	}
-	public void setDataDevolucao(String dataDevolucao) {
-		this.dataDevolucao = dataDevolucao;
+	
+	public void setPrazoDevolucao(String prazoDevolucao) {
+		this.prazoDevolucao = prazoDevolucao;
 	}
+	//	public String getDataDevolucao() {
+//		return this.dataDevolucao;
+//	}
+//	public void setDataDevolucao(String dataDevolucao) {
+//		this.dataDevolucao = dataDevolucao;
+//	}
 	public Usuario getUsuario() {
 		return this.usuario;
 	}
+	
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	public String getStatus() {
-		return this.status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
+	
+	
 	public List<ItensEmprestimo> getItensEmprestimo() {
-		return itensEmprestimo;
+		return itensEmprestimos;
 	}
+	
 	public void setItensEmprestimo(List<ItensEmprestimo> itensEmprestimo) {
-		this.itensEmprestimo = itensEmprestimo;
+		this.itensEmprestimos = itensEmprestimo;
 	}
 	
-	
+	public void addItemEmprestimo(ItensEmprestimo item) {
+		this.itensEmprestimos.add(item);
+	}
 }

@@ -31,6 +31,10 @@ public class EmprestimoGerente {
 
 		}
 		
+		public Emprestimo buscarEmprestimo(long id) {
+			return em.find(Emprestimo.class, id);
+		}
+		
 		//consultas JPQL
 		
 		@SuppressWarnings("unchecked")

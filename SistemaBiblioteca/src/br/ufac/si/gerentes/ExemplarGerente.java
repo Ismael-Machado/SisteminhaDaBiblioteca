@@ -14,33 +14,33 @@ public class ExemplarGerente {
 
 	//Gerenciando Exemplares
 
-//	public void incluirExempares(Livro livro, int quant) {
-//		em.getTransaction().begin();
-//		for(long i = 1; i <= quant; i++) {
-//			Exemplar exemplar = new Exemplar(livro, i);
-//			em.persist(exemplar);
-//		}
-//
-//		em.getTransaction().commit();
-//	}
+	public void incluirExempares(Livro livro, int quant) {
+		
+		long ex = livro.getQuantidade();
+		for(long i = 1; i <= quant; i++) {
+			ex++;	
+			Exemplar exemplar = new Exemplar(livro, ex, 1); //1 = exemplar disponivel
+			em.getTransaction().begin();
+			em.persist(exemplar);
+			em.getTransaction().commit();
+		}
+		livro.setQuantidade(livro.getQuantidade()+quant);
+		em.getTransaction().begin();
+		em.merge(livro);
+		em.getTransaction().commit();
+		
+	}
 
-//	public void incluirExemplar(Livro livro, long exemplar) {
-//		em.getTransaction().begin();
-//		Exemplar ex = new Exemplar(livro, exemplar);
-//		em.persist(ex);
-//		em.getTransaction().commit();
-//
-//	}
-
-	public void removerExemplar(Exemplar e) {
-//		Exemplar e = em.find(Exemplar.class, id);
-//		long exem = e.getId();
-
+	public void removerExemplar(Livro livro, Exemplar e) {
 		em.getTransaction().begin();
 		em.remove(e);
 		em.getTransaction().commit();
+		
+		livro.setQuantidade(livro.getQuantidade()-1);
+		em.getTransaction().begin();
+		em.merge(livro);
+		em.getTransaction().commit();
 
-//		return exem;
 	}
 
 	public void alterarExemplar(Exemplar exemplar) {
@@ -62,9 +62,12 @@ public class ExemplarGerente {
 	//Consultas JPQL
 	
 	@SuppressWarnings("unchecked")
-	public Exemplar buscarExemplar(long exemplar, long id_livro){
-		return (Exemplar) em
-				.createQuery("SELECT a FROM Exemplar a WHERE a.livro = "+id_livro+" AND a.exemplar = "+exemplar)
-				.getSingleResult();
+	public Exemplar buscarExemplar(long livro_id, long exemplar){
+			return (Exemplar) em
+					.createQuery("SELECT a FROM Exemplar a WHERE a.livro = "+livro_id+" AND a.exemplar = "+exemplar)
+					.getSingleResult();
+		
+		
+		
 	}
 }
