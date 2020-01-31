@@ -177,7 +177,7 @@
         <payara.version>5.181</payara.version>
         <payara-arquillian.version>1.0.Beta3</payara-arquillian.version>
 
-        <puppycrawl.checkstyle.version>8.1</puppycrawl.checkstyle.version>
+        <puppycrawl.checkstyle.version>8.29</puppycrawl.checkstyle.version>
 
         <groovy.version>2.4.12</groovy.version>
 
