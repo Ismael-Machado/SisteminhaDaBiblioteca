@@ -166,7 +166,7 @@
         <testng.version>6.8</testng.version>
         <!-- it must be the exact same version than the one used in the Bean Validation TCK -->
         <assertj-core.version>3.8.0</assertj-core.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <easymock.version>3.4</easymock.version>
 
         <!-- OSGi dependencies -->
